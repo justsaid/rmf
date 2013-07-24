@@ -23,7 +23,7 @@ public class Reporter {
 	@SuppressWarnings("unchecked")
 	public static void makeReport(ArrayList<SpecObjBean> beanList) throws Exception {
 		InputStream inputStream = new FileInputStream(
-				"templates/jasper_report_template.jrxml");
+				"templates/jasper_report_template_back.jrxml");
 
 		JRBeanCollectionDataSource beanColDataSource = new JRBeanCollectionDataSource(
 				beanList);
@@ -51,7 +51,7 @@ public class Reporter {
 	@SuppressWarnings("unchecked")
 	public static void makeMapReport(ArrayList<Map<String, ?>> specMapList) throws Exception {
 		InputStream inputStream = new FileInputStream(
-				"templates/jasper_report_template.jrxml");
+				"templates/jasper_report_template_back.jrxml");
 
 		JRMapCollectionDataSource  beanColDataSource = new JRMapCollectionDataSource(
 				specMapList);

@@ -1,6 +1,5 @@
 package org.eclipse.rmf.reqif10.pror.reporting.jasper.tests;
 
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -11,6 +10,9 @@ import java.util.Map;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.AttributeValue;
 import org.eclipse.rmf.reqif10.DatatypeDefinition;
 import org.eclipse.rmf.reqif10.EnumValue;
@@ -21,15 +23,17 @@ import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.XhtmlContent;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10XhtmlUtil;
-import org.eclipse.rmf.reqif10.common.util.ReqIFToolExtensionUtil;
 import org.eclipse.rmf.reqif10.pror.configuration.Column;
-import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationFactory;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
-import org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension;
+import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.editor.agilegrid.ProrAgileGridContentProvider;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.IProrCellRenderer;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.PresentationEditorInterface;
+import org.eclipse.rmf.reqif10.pror.presentation.headline.util.HeadlineAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.id.util.IdAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.linewrap.util.LinewrapAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.provider.ReqIF10ItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.testframework.AbstractItemProviderTest;
 import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
 import org.eclipse.rmf.reqif10.pror.util.ProrUtil;
@@ -39,15 +43,35 @@ import org.junit.Test;
 
 public class ProrJasperReportingTest extends AbstractItemProviderTest {
 	protected ProrAgileGridContentProvider contentProvider;
-	protected  Specification specification;
-	protected  ProrSpecViewConfiguration specViewConfig;
-	protected  ReqIF reqif;
-	protected  SpecObject specObject;
-	protected  SpecHierarchy specHierarchy;
-	
+	protected Specification specification;
+	protected ProrSpecViewConfiguration specViewConfig;
+	protected ReqIF reqif;
+	protected SpecObject specObject;
+	protected SpecHierarchy specHierarchy;
+
 	@Before
 	public void init() throws URISyntaxException{
-		reqif = this.getTestReqif("BasicReqs.reqif");
+		
+		adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory
+				.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new ReqIF10ItemProviderAdapterFactory());
+		// FIXME (mj) I would prefer not to generate these - does it work
+		// without?
+		// adapterFactory.addAdapterFactory(new
+		// XhtmlItemProviderAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+
+		adapterFactory.addAdapterFactory(new HeadlineAdapterFactory());
+		adapterFactory.addAdapterFactory(new LinewrapAdapterFactory());
+		adapterFactory.addAdapterFactory(new IdAdapterFactory());
+
+		
+		reqif = this.getTestReqif("Integration-Release-Checklist.reqif");
 		specification = reqif.getCoreContent().getSpecifications().get(0);
 		specObject = reqif.getCoreContent().getSpecObjects().get(0);
 		specHierarchy = specification.getChildren().get(0);
@@ -63,33 +87,32 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		contentProvider = new ProrAgileGridContentProvider(specification, specViewConfig);
 		
 		
+
 	}
+
 	@Test
-	public void firstTest() throws Exception{
+	public void firstTest() throws Exception {
 		ArrayList<Map<String, ?>> specMapList = new ArrayList<Map<String, ?>>();
-		
-		
-	printRecursive(new StringBuilder(), specViewConfig, 0,  specification.getChildren(), adapterFactory, specMapList);
-	Reporter.makeMapReport(specMapList);
+
+		printRecursive(new StringBuilder(), specViewConfig, "",
+				specification.getChildren(), adapterFactory, specMapList);
+		Reporter.makeMapReport(specMapList);
 	}
-	
-	private static void jasperPrint(EList<SpecHierarchy> children)
-	{
-		for (SpecHierarchy child : children)
-		{
-			if(child.getObject() != null){
-			SpecObject specObj = child.getObject();
-			
-		}}
+
+	private static void jasperPrint(EList<SpecHierarchy> children) {
+		for (SpecHierarchy child : children) {
+			if (child.getObject() != null) {
+				SpecObject specObj = child.getObject();
+
+			}
+		}
 	}
+
 	private static void printRecursive(StringBuilder html,
-			ProrSpecViewConfiguration config, int indent,
-			EList<SpecHierarchy> children,
-			AdapterFactory adapterFactory,
-			ArrayList<Map<String, ?>> specMapList)
-	{
-		SpecObjBean specObjBean = new SpecObjBean();
-		
+			ProrSpecViewConfiguration config, String indent,
+			EList<SpecHierarchy> children, AdapterFactory adapterFactory,
+			ArrayList<Map<String, ?>> specMapList) {
+
 		for (SpecHierarchy child : children) {
 			if (child.getObject() != null) {
 
@@ -102,22 +125,25 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 
 					// Handle indenting
 					if (first) {
-						html.append("<div style='margin-left: " + (indent * 20)
-								+ "px;'>");
+//						html.append("<div style='margin-left: " + (indent * 20)
+//								+ "px;'>");
+						
+//						indent = indent + "    ";
+
 					}
 					System.out.println("column");
 					AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
 							specObject, col.getLabel());
-					
-					System.out.println("----Column Label: "+col.getLabel());
-					System.out.println("----Content     : "+ getDefaultValue(av));
-					specMap.put(col.getLabel(), getDefaultValue(av));
-					
-					
+
+					System.out.println("----Column Label: " + col.getLabel());
+					System.out.println("----Content     : "
+							+ getDefaultValue(av, indent));
+					specMap.put(col.getLabel(), getDefaultValue(av, indent));
+
 					DatatypeDefinition dd = ReqIF10Util
 							.getDatatypeDefinition(av);
 
-					//null
+					// null
 					ProrPresentationConfiguration configuration = ConfigurationUtil
 							.getPresentationConfiguration(dd);
 
@@ -132,16 +158,16 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 							String content = renderer.doDrawHtmlContent(av);
 							if (content != null) {
 								html.append(content);
-								
+
 							} else {
 
-								html.append(getDefaultValue(av));
+								html.append(getDefaultValue(av, indent));
 							}
 						}
 
 					} else {
-						html.append(getDefaultValue(av));
-						
+						html.append(getDefaultValue(av, indent));
+
 					}
 
 					if (first) {
@@ -150,18 +176,16 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 					}
 					html.append("</td>");
 				}
-				
+
 				specMapList.add(specMap);
 				html.append("</tr>\n");
 			}
-			printRecursive(html, config, indent + 1, child.getChildren(),
+			printRecursive(html, config, indent + "      ", child.getChildren(),
 					adapterFactory, specMapList);
 		}
 	}
 
-	
-	
-	private static String getDefaultValue(AttributeValue av) {
+	private static String getDefaultValue(AttributeValue av, String indent) {
 		Object value = av == null ? null : ReqIF10Util.getTheValue(av);
 		String textValue;
 		if (value == null) {
@@ -172,7 +196,6 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 					.hasNext();) {
 				EnumValue enumValue = (EnumValue) i.next();
 				textValue += enumValue.getLongName();
-				
 
 				if (i.hasNext()) {
 					textValue += ", ";
@@ -185,7 +208,7 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 			try {
 				String xhtmlString = ReqIF10XhtmlUtil
 						.getXhtmlString((XhtmlContent) value);
-				System.out.println("xhtmlString"+xhtmlString);
+				System.out.println("xhtmlString" + xhtmlString);
 				xhtmlString = xhtmlString.replace("<xhtml:", "<");
 				xhtmlString = xhtmlString.replace("</xhtml:", "</");
 				textValue = xhtmlString;
@@ -195,8 +218,7 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 			textValue = value.toString();
 		}
 
-		return textValue;
+		return indent + textValue;
 	}
-	
-	
+
 }

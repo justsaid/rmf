@@ -6,17 +6,8 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="ID" class="java.lang.String">
-		<fieldDescription><![CDATA[ID]]></fieldDescription>
-	</field>
-	<field name="Name" class="java.lang.String">
-		<fieldDescription><![CDATA[Name]]></fieldDescription>
-	</field>
 	<field name="Description" class="java.lang.String">
 		<fieldDescription><![CDATA[Description]]></fieldDescription>
-	</field>
-	<field name="Owner" class="java.lang.String">
-		<fieldDescription><![CDATA[Owner]]></fieldDescription>
 	</field>
 	<columnHeader>
 		<band height="23" splitType="Stretch">
@@ -26,7 +17,14 @@
 					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
 				</box>
 				<textElement/>
-				<text><![CDATA[ID]]></text>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="dda55364-4fff-4e53-8fc0-9a3adbbefb9f" x="414" y="3" width="121" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="eadd76d8-9d2d-46b7-8779-befe1b6cbfca" x="0" y="3" width="136" height="15"/>
@@ -38,9 +36,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="1600" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="fd95c472-ca13-4b68-b2ee-2e86e58e556d" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="535" height="15" isRemoveLineWhenBlank="true" backcolor="#CCCCCC"/>
+				<reportElement uuid="fd95c472-ca13-4b68-b2ee-2e86e58e556d" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="535" height="14" backcolor="#E5ECF9"/>
 				<box>
 					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
 				</box>
@@ -48,26 +46,11 @@
 				<text><![CDATA[ ]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" stretchType="RelativeToBandHeight" x="0" y="0" width="68" height="15"/>
+				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" x="95" y="0" width="319" height="15"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="bd503adf-3efe-4114-a88b-a99e59d31ecd" stretchType="RelativeToBandHeight" mode="Transparent" x="163" y="0" width="272" height="15"/>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="26786ec2-28d3-4ff7-8139-99e26c8a43ae" stretchType="RelativeToBandHeight" x="435" y="0" width="82" height="15"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{Owner}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement uuid="082b4958-b12a-44b4-9e73-dc26e70c8531" stretchType="RelativeToBandHeight" x="68" y="0" width="95" height="15"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
