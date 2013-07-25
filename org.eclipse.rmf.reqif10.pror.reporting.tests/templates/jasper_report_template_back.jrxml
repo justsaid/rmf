@@ -12,7 +12,7 @@
 	<columnHeader>
 		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#70A9A9"/>
+				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#0099FF"/>
 				<box>
 					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
 				</box>
@@ -36,17 +36,9 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="1600" splitType="Stretch">
-			<staticText>
-				<reportElement uuid="fd95c472-ca13-4b68-b2ee-2e86e58e556d" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="535" height="14" backcolor="#E5ECF9"/>
-				<box>
-					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
-				</box>
-				<textElement/>
-				<text><![CDATA[ ]]></text>
-			</staticText>
+		<band height="16" splitType="Stretch">
 			<textField isStretchWithOverflow="true">
-				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" x="95" y="0" width="319" height="15"/>
+				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" mode="Opaque" x="95" y="0" width="319" height="15" backcolor="#E5ECF9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
