@@ -27,8 +27,10 @@ public class Reporter {
 	
 	@SuppressWarnings("unchecked")
 	public static void makeMapReport(ArrayList<Map<String, ?>> specMapList) throws Exception {
+		String path = "build/reports/noMemoReport.jrxml";
+//		String path = "templates/jasper_report_template_back.jrxml";
 		InputStream inputStream = new FileInputStream(
-				"templates/jasper_report_template_back.jrxml");
+				path);
 
 		JRMapCollectionDataSource  colDataSource = new JRMapCollectionDataSource(
 				specMapList);

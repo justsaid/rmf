@@ -7,36 +7,20 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="Description" class="java.lang.String">
-		<fieldDescription><![CDATA[Description]]></fieldDescription>
 	</field>
 	<columnHeader>
-		<band height="23" splitType="Stretch">
+		<band height="23" >
 			<staticText>
-				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#0099FF"/>
+				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="95" y="3" width="320" height="15" backcolor="#0099FF"/>
 				<box>
 					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
 				</box>
-				<textElement/>
 				<text><![CDATA[Description]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="dda55364-4fff-4e53-8fc0-9a3adbbefb9f" x="414" y="3" width="121" height="15"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="eadd76d8-9d2d-46b7-8779-befe1b6cbfca" x="0" y="3" width="136" height="15"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="16" >
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" mode="Opaque" x="95" y="0" width="319" height="15" backcolor="#E5ECF9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">

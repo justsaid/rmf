@@ -225,15 +225,161 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		JRDesignTextField textField = new JRDesignTextField();
 		textField.setX(x);
 		textField.setY(y);
-		textField.setWidth(515);
+		textField.setWidth(x+300);
 		textField.setHeight(15);
-		textField.setBackcolor(new Color(0xC0, 0xC0, 0xC0));
+		textField.setBackcolor(new Color(229,236,249));
 		textField.setMode(ModeEnum.OPAQUE);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.LEFT);
-
+		
 		return textField;
 	}
 
+	public static JRDesignExpression createExpression(String expr){
+	JRDesignExpression expression = new JRDesignExpression();
+//	expression.setValueClass(java.lang.Integer.class);
+	expression.setText("$F{"+expr+"}");
+	return expression;
+	}
+	
+
+	public static JRDesignStaticText createStaticText(String txt, int x,int y){
+	JRDesignStaticText staticText = new JRDesignStaticText();
+	staticText.setX(x);
+	staticText.setY(y);
+	staticText.setWidth(x+205);
+	staticText.setHeight(15);
+	staticText.setForecolor(Color.white);
+	staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
+	staticText.setMode(ModeEnum.OPAQUE);
+	staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
+	staticText.setText(txt);
+
+	return staticText;
+	}
+	public static JRDesignStyle createNormalStyle(){
+	JRDesignStyle normalStyle = new JRDesignStyle();
+	normalStyle.setName("Sans_Normal");
+	normalStyle.setDefault(true);
+	normalStyle.setFontName("Serif");
+	normalStyle.setFontSize(12);
+	normalStyle.setPdfFontName("Helvetica");
+	normalStyle.setPdfEncoding("Cp1252");
+	normalStyle.setPdfEmbedded(false);
+	return normalStyle;
+	}
+
+	public static JRDesignStyle createBoldStyle(){
+	JRDesignStyle boldStyle = new JRDesignStyle();
+	boldStyle.setName("Sans_Bold");
+	boldStyle.setFontName("Serif");
+	boldStyle.setFontSize(12);
+	boldStyle.setBold(true);
+	boldStyle.setPdfFontName("Helvetica-Bold");
+	boldStyle.setPdfEncoding("Cp1252");
+	boldStyle.setPdfEmbedded(false);
+	return boldStyle;
+	}
+
+	public static JRDesignStyle createItalicStyle(){
+
+	JRDesignStyle italicStyle = new JRDesignStyle();
+	italicStyle.setName("Sans_Italic");
+	italicStyle.setFontName("DejaVu Sans");
+	italicStyle.setFontSize(12);
+	italicStyle.setItalic(true);
+	italicStyle.setPdfFontName("Helvetica-Oblique");
+	italicStyle.setPdfEncoding("Cp1252");
+	italicStyle.setPdfEmbedded(false);
+	return italicStyle;
+	}
+	
+	public static JasperDesign createJasperDesign() throws JRException {
+
+		// JasperDesign
+		JasperDesign jasperDesign = new JasperDesign();
+		jasperDesign.setName("ReqIF_Report");
+		jasperDesign.setPageWidth(595);
+		jasperDesign.setPageHeight(842);
+		jasperDesign.setColumnWidth(515);
+		jasperDesign.setColumnSpacing(0);
+		jasperDesign.setLeftMargin(40);
+		jasperDesign.setRightMargin(40);
+		jasperDesign.setTopMargin(50);
+		jasperDesign.setBottomMargin(50);
+
+		// Fonts
+		JRDesignStyle normalStyle = createNormalStyle();
+		jasperDesign.addStyle(normalStyle);
+
+		JRDesignStyle boldStyle = createBoldStyle();
+		jasperDesign.addStyle(boldStyle);
+
+		JRDesignStyle italicStyle = createItalicStyle();
+		jasperDesign.addStyle(italicStyle);
+
+		// Parameters
+		JRDesignParameter parameter = new JRDesignParameter();
+		parameter.setName("ReportTitle");
+		parameter.setValueClass(java.lang.String.class);
+		jasperDesign.addParameter(parameter);
+
+		// Query
+		JRDesignQuery query = new JRDesignQuery();
+		query.setText("");
+		jasperDesign.setQuery(query);
+		return jasperDesign;
+	}
+	
+	public static JasperDesign enrichJasperDesign(JasperDesign jasperDesign, String [] columns) throws JRException{
+	
+		
+		JRDesignField field;
+		JRDesignStaticText staticText;
+		
+		JRDesignFrame frame = new JRDesignFrame();
+		JRDesignTextField textField;
+		// Bands
+		
+		JRDesignBand band = new JRDesignBand();
+		band.setHeight(20);
+//		jasperDesign.setColumnHeader(band);
+		int c = 0;
+		for (String column : columns)
+		{
+			field = createField(column);
+			field.setValueClass(java.lang.String.class);
+			jasperDesign.addField(field);
+			
+			staticText = createStaticText(column,0,0);
+			staticText.setStyle(createBoldStyle());
+			frame.addElement(staticText);
+			
+			
+			textField = createTextField(0, 4);
+			textField.setStretchWithOverflow(true);
+			textField.setStyle(createNormalStyle());
+		
+			JRDesignExpression expression = new JRDesignExpression();
+			expression.setText("$F{"+column+"}");
+			textField.setExpression(expression);
+			band.addElement(textField);
+
+		}
+
+		
+//		= createTextField(0, 4);
+//		band.addElement(textField);
+		
+
+		
+
+		
+		
+		((JRDesignSection) jasperDesign.getDetailSection()).addBand(band);
+
+		return jasperDesign;
+	}
+	
 	public static JasperDesign getJasperDesign() throws JRException {
 
 		// JasperDesign
@@ -249,34 +395,13 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		jasperDesign.setBottomMargin(50);
 
 		// Fonts
-		JRDesignStyle normalStyle = new JRDesignStyle();
-		normalStyle.setName("Sans_Normal");
-		normalStyle.setDefault(true);
-		normalStyle.setFontName("Serif");
-		normalStyle.setFontSize(12);
-		normalStyle.setPdfFontName("Helvetica");
-		normalStyle.setPdfEncoding("Cp1252");
-		normalStyle.setPdfEmbedded(false);
+		JRDesignStyle normalStyle = createNormalStyle();
 		jasperDesign.addStyle(normalStyle);
 
-		JRDesignStyle boldStyle = new JRDesignStyle();
-		boldStyle.setName("Sans_Bold");
-		boldStyle.setFontName("Serif");
-		boldStyle.setFontSize(12);
-		boldStyle.setBold(true);
-		boldStyle.setPdfFontName("Helvetica-Bold");
-		boldStyle.setPdfEncoding("Cp1252");
-		boldStyle.setPdfEmbedded(false);
+		JRDesignStyle boldStyle = createBoldStyle();
 		jasperDesign.addStyle(boldStyle);
 
-		JRDesignStyle italicStyle = new JRDesignStyle();
-		italicStyle.setName("Sans_Italic");
-		italicStyle.setFontName("DejaVu Sans");
-		italicStyle.setFontSize(12);
-		italicStyle.setItalic(true);
-		italicStyle.setPdfFontName("Helvetica-Oblique");
-		italicStyle.setPdfEncoding("Cp1252");
-		italicStyle.setPdfEmbedded(false);
+		JRDesignStyle italicStyle = createItalicStyle();
 		jasperDesign.addStyle(italicStyle);
 
 		// Parameters
@@ -323,43 +448,11 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		band.addElement(line);
 
 		JRDesignStaticText staticText = new JRDesignStaticText();
-		staticText.setX(400);
-		staticText.setY(0);
-		staticText.setWidth(60);
-		staticText.setHeight(15);
-		staticText.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
-		staticText.setStyle(boldStyle);
-		staticText.setText("Count : ");
+
 //		band.addElement(staticText);
-		textField = new JRDesignTextField();
-		textField.setX(460);
-		textField.setY(0);
-		textField.setWidth(30);
-		textField.setHeight(15);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
-		textField.setStyle(boldStyle);
+
 //		band.addElement(textField);
 
-		// Title
-		band = new JRDesignBand();
-		band.setHeight(50);
-		line = new JRDesignLine();
-		line.setX(0);
-		line.setY(0);
-		line.setWidth(515);
-		line.setHeight(0);
-		band.addElement(line);
-		textField = new JRDesignTextField();
-		textField.setBlankWhenNull(true);
-		textField.setX(0);
-		textField.setY(10);
-		textField.setWidth(515);
-		textField.setHeight(30);
-		textField.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
-		textField.setStyle(normalStyle);
-		textField.setFontSize(22);
-		band.addElement(textField);
-		jasperDesign.setTitle(band);
 
 		// Page header
 		band = new JRDesignBand();
@@ -374,40 +467,18 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		frame.setMode(ModeEnum.OPAQUE);
 		band.addElement(frame);
 
-		staticText = new JRDesignStaticText();
-		staticText.setX(0);
-		staticText.setY(0);
-		staticText.setWidth(55);
-		staticText.setHeight(15);
-		staticText.setForecolor(Color.white);
-		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE);
-		staticText.setHorizontalAlignment(HorizontalAlignEnum.CENTER);
-		staticText.setStyle(boldStyle);
-		staticText.setText("ID");
+		staticText = createStaticText("ID",0,0);
+		staticText.setStyle(createBoldStyle());
 		frame.addElement(staticText);
-		staticText = new JRDesignStaticText();
-		staticText.setX(55);
-		staticText.setY(0);
-		staticText.setWidth(205);
-		staticText.setHeight(15);
-		staticText.setForecolor(Color.white);
-		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE);
-		staticText.setStyle(boldStyle);
-		staticText.setText("Name");
+		
+		staticText = createStaticText("Name", 111, 0);
+		staticText.setStyle(createBoldStyle());
 		frame.addElement(staticText);
-		staticText = new JRDesignStaticText();
-		staticText.setX(260);
-		staticText.setY(0);
-		staticText.setWidth(255);
-		staticText.setHeight(15);
-		staticText.setForecolor(Color.white);
-		staticText.setBackcolor(new Color(0x33, 0x33, 0x33));
-		staticText.setMode(ModeEnum.OPAQUE);
-		staticText.setStyle(boldStyle);
-		staticText.setText("Street");
+
+		staticText = createStaticText("Street", 260, 0);
+		staticText.setStyle(createBoldStyle());
 		frame.addElement(staticText);
+
 		jasperDesign.setPageHeader(band);
 
 		// Column header
@@ -417,6 +488,7 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		// Detail
 		band = new JRDesignBand();
 		band.setHeight(20);
+		
 		textField = new JRDesignTextField();
 		textField.setX(0);
 		textField.setY(4);
@@ -424,7 +496,12 @@ public class ProrJasperReportingTest extends AbstractItemProviderTest {
 		textField.setHeight(15);
 		textField.setHorizontalAlignment(HorizontalAlignEnum.RIGHT);
 		textField.setStyle(normalStyle);
+		
+		JRDesignExpression expression = new JRDesignExpression();
+		expression.setText("$F{Id}");
+		textField.setExpression(expression);
 		band.addElement(textField);
+		
 		textField = new JRDesignTextField();
 		textField.setStretchWithOverflow(true);
 		textField.setX(55);

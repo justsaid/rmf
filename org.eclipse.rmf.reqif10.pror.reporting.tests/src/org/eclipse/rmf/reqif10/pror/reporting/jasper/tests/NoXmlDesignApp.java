@@ -94,7 +94,9 @@ public class NoXmlDesignApp extends AbstractSampleApp
 	 
 //		NoXmlDesignApp noXml = new NoXmlDesignApp();
 		
-		JRXmlWriter.writeReport(ProrJasperReportingTest.getJasperDesign(), "build/reports/noMemoReport.jrxml","UTF-8");
+		JasperDesign jasperDesign = ProrJasperReportingTest.createJasperDesign();
+		String[] columns = {"Description"};
+		JRXmlWriter.writeReport(ProrJasperReportingTest.enrichJasperDesign(jasperDesign, columns), "build/reports/noMemoReport.jrxml","UTF-8");
 		
 		
 		//
