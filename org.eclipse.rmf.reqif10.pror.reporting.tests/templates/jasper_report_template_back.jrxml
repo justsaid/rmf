@@ -6,25 +6,34 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="Description" class="java.lang.String">
-	</field>
+	<field name="Description" class="java.lang.String"/>
 	<columnHeader>
-		<band height="23" >
+		<band height="23">
 			<staticText>
 				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="95" y="3" width="320" height="15" backcolor="#0099FF"/>
 				<box>
 					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
 				</box>
+				<textElement/>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="430" y="3" width="320" height="15" backcolor="#0099FF"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement/>
 				<text><![CDATA[Description]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" >
+		<band height="16">
 			<textField isStretchWithOverflow="true">
 				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" mode="Opaque" x="95" y="0" width="319" height="15" backcolor="#E5ECF9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9"/>
+					<paragraph leftIndent="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
 			</textField>

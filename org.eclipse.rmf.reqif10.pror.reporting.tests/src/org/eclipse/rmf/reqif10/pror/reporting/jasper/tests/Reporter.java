@@ -3,12 +3,15 @@ package org.eclipse.rmf.reqif10.pror.reporting.jasper.tests;
 
 
 import java.beans.Encoder;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.eclipse.emf.common.util.URI;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -29,6 +32,11 @@ public class Reporter {
 	public static void makeMapReport(ArrayList<Map<String, ?>> specMapList) throws Exception {
 		String path = "build/reports/noMemoReport.jrxml";
 //		String path = "templates/jasper_report_template_back.jrxml";
+		
+		File file = new File(path);
+		int count = file.getAbsoluteFile().getName().charAt(0);
+		count++;
+		
 		InputStream inputStream = new FileInputStream(
 				path);
 
@@ -46,7 +54,8 @@ public class Reporter {
 				parameters, colDataSource);
 		
 		JasperExportManager.exportReportToPdfFile(jasperPrint,
-				"templates/test_jasper.pdf");
+				"templates/"+ file.getAbsoluteFile().getName()+".pdf");
+		
 		
 //		JasperViewer.viewReport(jasperPrint,false);
 	}
