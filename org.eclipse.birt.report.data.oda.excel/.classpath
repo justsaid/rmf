@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/xerces-2_11_0/resolver.jar"/>
+	<classpathentry kind="lib" path="lib/xerces-2_11_0/serializer.jar"/>
+	<classpathentry kind="lib" path="lib/xerces-2_11_0/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="lib/xerces-2_11_0/xercesSamples.jar"/>
+	<classpathentry kind="lib" path="lib/xerces-2_11_0/xml-apis.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/geronimo-stax-api_1.0_spec-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/poi-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/poi-examples-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/poi-ooxml-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/poi-ooxml-schemas-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/poi-scratchpad-3.7-20101029.jar"/>
+	<classpathentry kind="lib" path="lib/poi-3.7/xmlbeans-2.3.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
