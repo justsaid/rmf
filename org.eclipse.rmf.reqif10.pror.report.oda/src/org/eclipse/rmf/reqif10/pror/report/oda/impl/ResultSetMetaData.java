@@ -7,9 +7,27 @@
 
 package org.eclipse.rmf.reqif10.pror.report.oda.impl;
 
+import java.util.HashMap;
+
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.emf.common.command.BasicCommandStack;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.ReqIF;
+import org.eclipse.rmf.reqif10.pror.configuration.Column;
+import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
+import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.headline.util.HeadlineAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.id.util.IdAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.linewrap.util.LinewrapAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.provider.ReqIF10ItemProviderAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.report.oda.impl.test.OdaUtilTest;
+import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
+import org.eclipse.rmf.serialization.ReqIFResourceSetImpl;
 
 /**
  * Implementation class of IResultSetMetaData for an ODA runtime driver.
@@ -22,7 +40,6 @@ import org.eclipse.rmf.reqif10.ReqIF;
  */
 public class ResultSetMetaData implements IResultSetMetaData
 {
-	private Connection connection;
 	private String query;
 	//ReqIF data
 	private ReqIF reqif;
@@ -38,50 +55,68 @@ public class ResultSetMetaData implements IResultSetMetaData
 	
 	//ReqIFToolExtension data
 	private String[] columnNames;
+	private AdapterFactoryEditingDomain editingDomain;
+	private EList<Column> columns;
+	private HashMap<String, Integer> columnIdxMap;
 	
 	public ResultSetMetaData(Connection connection, String query){
 	
-		this.connection = connection;
 		this.query = query;
-		
-		
 		this.reqif = connection.getReqif();
+		
+		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
+				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
+		adapterFactory
+				.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new ReqIF10ItemProviderAdapterFactory());
+		// FIXME (mj) I would prefer not to generate these - does it work
+		// without?
+		// adapterFactory.addAdapterFactory(new
+		// XhtmlItemProviderAdapterFactory());
+		adapterFactory
+				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
+
+		adapterFactory.addAdapterFactory(new HeadlineAdapterFactory());
+		adapterFactory.addAdapterFactory(new LinewrapAdapterFactory());
+		adapterFactory.addAdapterFactory(new IdAdapterFactory());
+
+		BasicCommandStack commandStack = new BasicCommandStack();
+		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
+				commandStack, new ReqIFResourceSetImpl());
+		
+		ProrSpecViewConfiguration config = ConfigurationUtil
+				.createSpecViewConfiguration(this.reqif.getCoreContent().getSpecifications().get(0), editingDomain);
+		
+		columns = config.getColumns();
+		columnIdxMap = new HashMap<String, Integer>();
+		
+		int i = 0;
+		for(Column column : columns)
+		{
+			columnIdxMap.put(column.getLabel(), i);
+			i++;
+		}
 	}
     
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnCount()
-	 */
 	public int getColumnCount() throws OdaException
 	{
-
-        return 2;
+        return columns.size();
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnName(int)
-	 */
 	public String getColumnName( int index ) throws OdaException
 	{
-        // TODO replace with data source specific implementation
-
-        // hard-coded for demo purpose
-        return "Column" + index;
+		return columns.get(index).getLabel();
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnLabel(int)
-	 */
 	public String getColumnLabel( int index ) throws OdaException
 	{
 		return getColumnName( index );		// default
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnType(int)
-	 */
 	public int getColumnType( int index ) throws OdaException
 	{
-        // TODO replace with data source specific implementation
 
         // hard-coded for demo purpose
         if( index == 1 )
@@ -89,18 +124,12 @@ public class ResultSetMetaData implements IResultSetMetaData
         return java.sql.Types.CHAR;          // as defined in data set extension manifest
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnTypeName(int)
-	 */
 	public String getColumnTypeName( int index ) throws OdaException
 	{
         int nativeTypeCode = getColumnType( index );
         return Driver.getNativeDataTypeName( nativeTypeCode );
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getColumnDisplayLength(int)
-	 */
 	public int getColumnDisplayLength( int index ) throws OdaException
 	{
         // TODO replace with data source specific implementation
@@ -109,27 +138,18 @@ public class ResultSetMetaData implements IResultSetMetaData
 		return 8;
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getPrecision(int)
-	 */
 	public int getPrecision( int index ) throws OdaException
 	{
         // TODO Auto-generated method stub
 		return -1;
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#getScale(int)
-	 */
 	public int getScale( int index ) throws OdaException
 	{
         // TODO Auto-generated method stub
 		return -1;
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSetMetaData#isNullable(int)
-	 */
 	public int isNullable( int index ) throws OdaException
 	{
         // TODO Auto-generated method stub

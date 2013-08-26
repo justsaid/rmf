@@ -16,6 +16,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.rmf.reqif10.pror.presentation.headline;bundle-version="0.7.1",
  org.eclipse.rmf.reqif10.pror.presentation.id;bundle-version="0.7.1",
  org.eclipse.rmf.reqif10.pror.presentation.linewrap;bundle-version="0.7.1",
- org.eclipse.rmf.serialization;bundle-version="0.7.1"
+ org.eclipse.rmf.serialization;bundle-version="0.7.1",
+ org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

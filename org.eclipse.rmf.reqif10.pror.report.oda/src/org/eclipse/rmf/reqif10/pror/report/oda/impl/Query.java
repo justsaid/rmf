@@ -69,7 +69,7 @@ public class Query implements IQuery
          * Replace with implementation to return an instance 
          * based on this prepared query.
          */
-		IResultSet resultSet = new ResultSet(getMetaData());
+		IResultSet resultSet = new ResultSet(this.connection);
 		resultSet.setMaxRows( getMaxRows() );
 		return resultSet;
 	}
