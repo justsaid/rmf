@@ -10,7 +10,7 @@
             defaultDisplayName="%data.source.name"
             setThreadContextClassLoader="false"
             odaVersion="3.2"
-            id="%oda.data.source.id">
+            id="org.eclipse.rmf.reqif10.pror.oda">
          <properties>
             <property
                   name="ReqIF_file"
