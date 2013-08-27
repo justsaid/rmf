@@ -1,12 +1,15 @@
 /*
  *************************************************************************
- * Copyright (c) 2012 <<Your Company Name here>>
+ * Copyright (c) 2013 <<Your Company Name here>>
  *  
  *************************************************************************
  */
 
 package org.eclipse.rmf.reqif10.pror.report.oda.ui.impl;
 
+import java.io.File;
+
+import org.eclipse.birt.report.data.oda.excel.ui.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
@@ -20,18 +23,29 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
+import org.eclipse.datatools.connectivity.oda.design.ui.nls.TextProcessorWrapper;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
+
 
 /**
  * Auto-generated implementation of an ODA data set designer page
@@ -43,40 +57,131 @@ import org.eclipse.swt.widgets.Text;
  * A custom ODA designer is expected to change this exemplary implementation 
  * as appropriate. 
  */
-public class CustomDataSetWizardPage extends DataSetWizardPage
+public class CustomDataSetWizardPage_ extends DataSetWizardPage
 {
 
     private static String DEFAULT_MESSAGE = "Define the query text for the data set";
     
     private transient Text m_queryTextField;
 
+	private WizardPage wizardPage;
+    private Label lblUseTheBelow;
+	private transient Text folderLocation;
+	private static final int CORRECT_FOLDER = 0;
+	private static final int ERROR_FOLDER = 1;
+	private static final int ERROR_EMPTY_PATH = 2;
+	
+	private Tree dataList;
+
+	private Button browseFolderButton;
 	/**
      * Constructor
 	 * @param pageName
 	 */
-	public CustomDataSetWizardPage( String pageName )
+	public CustomDataSetWizardPage_( String pageName )
 	{
         super( pageName );
         setTitle( pageName );
         setMessage( DEFAULT_MESSAGE );
+        setPageComplete(false);
 	}
 
+	private String getFolderLocationString() {
+		return TextProcessorWrapper.deprocess(folderLocation.getText());
+	}
+	private int verifyFileLocation() {
+		int result = CORRECT_FOLDER;
+		String folderLocationValue = getFolderLocationString();
+		if (folderLocationValue.trim().length() > 0) {
+			File f = new File(folderLocationValue.trim());
+			if (f.exists()) {
+				setMessage(DEFAULT_MESSAGE, IMessageProvider.NONE);
+				setPageComplete(true);
+			} else {
+				setMessage(
+						Messages.getString("error.selectFolder"), IMessageProvider.ERROR); //$NON-NLS-1$
+				setPageComplete(false);
+				result = ERROR_FOLDER;
+			}
+		} else {
+			setMessage(
+					Messages.getString("error.emptyPath"), IMessageProvider.ERROR); //$NON-NLS-1$
+			setPageComplete(false);
+			result = ERROR_EMPTY_PATH;
+		}
+		if (result == CORRECT_FOLDER)
+			return result;
+
+		if (wizardPage == null) {
+			setPageComplete(true);
+			setMessage(
+					Messages.getString("error.invalidFlatFilePath"), IMessageProvider.ERROR); //$NON-NLS-1$
+		}
+		return result;
+	}
 	/**
      * Constructor
 	 * @param pageName
 	 * @param title
 	 * @param titleImage
 	 */
-	public CustomDataSetWizardPage( String pageName, String title,
+	public CustomDataSetWizardPage_( String pageName, String title,
 			ImageDescriptor titleImage )
 	{
         super( pageName, title, titleImage );
         setMessage( DEFAULT_MESSAGE );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#createPageCustomControl(org.eclipse.swt.widgets.Composite)
-	 */
+	private void setFolderLocationString(String folderPath) {
+		folderLocation.setText(TextProcessorWrapper.process(folderPath));
+	}
+	
+	private void setupFolderLocation(Composite composite) {
+		Label label = new Label(composite, SWT.NONE);
+		label.setText("Select a Folder"); //$NON-NLS-1$
+
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+
+		folderLocation = new Text(composite, SWT.BORDER);
+		folderLocation.setLayoutData(data);
+		setPageComplete(false);
+		folderLocation.addModifyListener(new ModifyListener() {
+
+			public void modifyText(ModifyEvent e) {
+				verifyFileLocation();
+			}
+
+		});
+		
+
+		browseFolderButton = new Button(composite, SWT.NONE);
+		browseFolderButton.setText(Messages
+				.getString("button.selectFolder.browse")); //$NON-NLS-1$
+		browseFolderButton.addSelectionListener(new SelectionAdapter() {
+
+			/*
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
+			 */
+			public void widgetSelected(SelectionEvent e) {
+				DirectoryDialog dialog = new DirectoryDialog(folderLocation
+						.getShell());
+				String folderLocationValue = getFolderLocationString();
+				if (folderLocationValue != null
+						&& folderLocationValue.trim().length() > 0) {
+					dialog.setFilterPath(folderLocationValue);
+				}
+
+				dialog.setMessage(DEFAULT_MESSAGE);
+				String selectedLocation = dialog.open();
+				if (selectedLocation != null) {
+					setFolderLocationString(selectedLocation);
+				}
+			}
+		});
+	}
+		
 	public void createPageCustomControl( Composite parent )
 	{
         setControl( createPageControl( parent ) );
@@ -88,6 +193,22 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
      */
     private Control createPageControl( Composite parent )
     {
+		Composite content = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout(3, false);
+		content.setLayout(layout);
+
+		// GridData data;
+		setupFolderLocation(content);
+
+//		setupColumnNameLineCheckBox(content);
+//
+//		setupTypeLineCheckBox(content);
+//
+//		Utility.setSystemHelp(getControl(),
+//				IHelpConstants.CONEXT_ID_DATASOURCE_EXCEL);
+		
+		
+		
         Composite composite = new Composite( parent, SWT.NONE );
         composite.setLayout( new GridLayout( 1, false ) );
         GridData gridData = new GridData( GridData.HORIZONTAL_ALIGN_FILL
@@ -111,7 +232,39 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
             }
         } );
        
-        setPageComplete( false );
+             this.lblUseTheBelow = new Label(composite, 64);
+             GridData gd_lblUseTheBelow = new GridData(16384, 16777216, false, false, 1, 1);
+             gd_lblUseTheBelow.widthHint = 150;
+             this.lblUseTheBelow.setLayoutData(gd_lblUseTheBelow);
+             this.lblUseTheBelow.setText("Use this tree view to select a table. You can browse the tables columns to verify it is the correct table by expanding it using the arrow on the left. If you select one of the tables columns, that table will automatically be selected.");
+        
+             GridData data1 = new GridData(768);
+                  data1.verticalAlignment = 4;
+                  data1.widthHint = 431;
+                  data1.heightHint = 71;
+             
+             this.dataList = new Tree(composite, 2048);
+                  this.dataList.setLayoutData(data1);
+                  this.dataList.setSize(600, 600);
+                  this.dataList.addSelectionListener(new SelectionListener()
+                  {
+                    public void widgetDefaultSelected(SelectionEvent e)
+                    {
+                    }
+              
+                    public void widgetSelected(SelectionEvent e)
+                    {
+                      TreeItem ti = CustomDataSetWizardPage_.this.dataList.getSelection()[0];
+              
+                      while (ti.getParentItem() != null)
+                     {
+                        ti = ti.getParentItem();
+                      }
+              
+                      CustomDataSetWizardPage_.this.m_queryTextField.setText(ti.getText());
+                    }
+                  });
+             
         return composite;
     }
 
@@ -127,6 +280,12 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
 
         // Restores the last saved data set design
         DataSetDesign dataSetDesign = getInitializationDesign();
+        
+        String reqif = dataSetDesign.getDataSourceDesign().getPublicProperties().getProperty("ReqIF_file");
+    
+
+ 
+
         if( dataSetDesign == null )
             return; // nothing to initialize
 
