@@ -7,6 +7,7 @@
 
 package org.eclipse.rmf.reqif10.pror.report.oda.impl;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
@@ -15,6 +16,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,9 +32,15 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.rmf.reqif10.AttributeValue;
+import org.eclipse.rmf.reqif10.EnumValue;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
+import org.eclipse.rmf.reqif10.SpecObject;
 import org.eclipse.rmf.reqif10.Specification;
+import org.eclipse.rmf.reqif10.XhtmlContent;
+import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
+import org.eclipse.rmf.reqif10.common.util.ReqIF10XhtmlUtil;
 import org.eclipse.rmf.reqif10.pror.configuration.Column;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFactory;
@@ -42,6 +50,7 @@ import org.eclipse.rmf.reqif10.pror.presentation.linewrap.util.LinewrapAdapterFa
 import org.eclipse.rmf.reqif10.pror.provider.ReqIF10ItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.report.oda.impl.test.OdaUtilTest;
 import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
+import org.eclipse.rmf.reqif10.pror.util.ProrXhtmlSimplifiedHelper;
 import org.eclipse.rmf.serialization.ReqIFResourceSetImpl;
 
 import com.ibm.icu.text.NumberFormat;
@@ -101,6 +110,8 @@ public class ResultSet implements IResultSet {
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
 				commandStack, new ReqIFResourceSetImpl());
 		
+		initiateMatrix();
+		
 	}
 
 	public IResultSetMetaData getMetaData() throws OdaException {
@@ -122,19 +133,97 @@ public class ResultSet implements IResultSet {
 		return maxRows;
 	}
 
-	public void initiateMatrix() {
+	private void initiateMatrix() {
 
-		OdaUtilTest util = new OdaUtilTest();
 		List<String[]> m = new ArrayList<String[]>();
-		matrix = util.fillMatrix(m);
+		matrix = fillMatrix(m);
 	}
 
+	public List<String[]> fillMatrix(List<String[]> matrix) {
+
+		ProrSpecViewConfiguration config = ConfigurationUtil
+				.createSpecViewConfiguration(specification, editingDomain);
+
+		fillRecursiv(specification.getChildren(), config, matrix, 0, 0);
+		return matrix;
+	}
+
+	public void fillRecursiv(EList<SpecHierarchy> children,
+			ProrSpecViewConfiguration config, List<String[]> matrix, int rowId, int indent) {
+
+		Iterator<SpecHierarchy> it = children.iterator();
+
+		while (it.hasNext()) {
+			SpecHierarchy specH = it.next();
+			SpecObject specObj = specH.getObject();
+			
+			matrix.add(new String[config.getColumns().size()]);
+
+			if (specObj != null) {
+				
+				
+				int columnId = 0;
+				for (Column column : config.getColumns()) {
+					AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
+							specObj, column.getLabel());
+
+					matrix.get(rowId)[columnId] = multiplyString("    ", indent) + getDefaultValue(av);
+					columnId++;
+					
+					System.out.println( column.getLabel());
+				}
+			}
+			rowId++;
+			fillRecursiv(specH.getChildren(), config, matrix, rowId, indent + 1);
+		}
+
+	}
+	private String multiplyString(String str, int times)
+	{
+		StringBuilder strb = new StringBuilder();
+		for (int i = 0; i < times; i++) {
+			strb.append(str);
+		}
+		return strb.toString();
+	}
+	private static String getDefaultValue(AttributeValue av) {
+		Object value = av == null ? null : ReqIF10Util.getTheValue(av);
+		String textValue;
+		if (value == null) {
+			textValue = "";
+		} else if (value instanceof List<?>) {
+			textValue = "";
+			for (Iterator<?> i = ((List<?>) value).iterator(); i.hasNext();) {
+				EnumValue enumValue = (EnumValue) i.next();
+				textValue += enumValue.getLongName();
+				if (i.hasNext()) {
+					textValue += ", ";
+				}
+			}
+		} else if (value instanceof XhtmlContent) {
+			textValue = ProrXhtmlSimplifiedHelper
+					.xhtmlToSimplifiedString((XhtmlContent) value);
+			try {
+				String xhtmlString = ReqIF10XhtmlUtil
+						.getXhtmlString((XhtmlContent) value);
+				xhtmlString = xhtmlString.replace("<xhtml:", "<");
+				xhtmlString = xhtmlString.replace("</xhtml:", "</");
+				textValue = xhtmlString;
+			} catch (IOException e) {
+			}
+		} else {
+			textValue = value.toString();
+		}
+		return textValue;
+	}
+	
+	
 	public boolean next() throws OdaException
 	{
         
         int maxRows = matrix.size();
         
-        if( currentRowId < maxRows )
+        if( currentRowId < maxRows - 1 )
         {
             currentRowId++;
             if (matrix.get(currentRowId) != null)
@@ -166,11 +255,12 @@ public class ResultSet implements IResultSet {
 	}
 
 	public int getInt(int index) throws OdaException {
+//		return 0;
 		return Integer.parseInt(getString(index));
 	}
 
 	public int getInt(String columnName) throws OdaException {
-		return getInt(getString(columnName));
+		return Integer.parseInt(getString(columnName));
 	}
 
 	public double getDouble(int index) throws OdaException {

@@ -21,7 +21,6 @@ import org.eclipse.datatools.connectivity.oda.design.ResultSetColumns;
 import org.eclipse.datatools.connectivity.oda.design.ResultSetDefinition;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
-import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -107,6 +106,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
         {
             public void modifyText( ModifyEvent e )
             {
+//            	setPageComplete(true);
                 validateData();
             }
         } );

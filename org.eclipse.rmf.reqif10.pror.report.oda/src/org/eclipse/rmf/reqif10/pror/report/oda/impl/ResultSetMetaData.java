@@ -107,7 +107,7 @@ public class ResultSetMetaData implements IResultSetMetaData
 
 	public String getColumnName( int index ) throws OdaException
 	{
-		return columns.get(index).getLabel();
+		return columns.get(index - 1).getLabel();
 	}
 
 	public String getColumnLabel( int index ) throws OdaException
