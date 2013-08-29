@@ -235,9 +235,6 @@ public class ResultSet implements IResultSet {
         return false;        
 	}
 
-	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IResultSet#close()
-	 */
 	public void close() throws OdaException {
 		currentRowId = 0; // reset row counter
 	}
@@ -256,7 +253,8 @@ public class ResultSet implements IResultSet {
 
 	public int getInt(int index) throws OdaException {
 //		return 0;
-		return Integer.parseInt(getString(index));
+		String entry = matrix.get(currentRowId)[index - 1];
+		return Integer.parseInt(entry);
 	}
 
 	public int getInt(String columnName) throws OdaException {

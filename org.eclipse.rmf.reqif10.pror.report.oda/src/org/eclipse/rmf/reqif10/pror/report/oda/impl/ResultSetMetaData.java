@@ -117,10 +117,9 @@ public class ResultSetMetaData implements IResultSetMetaData
 
 	public int getColumnType( int index ) throws OdaException
 	{
-
-        // hard-coded for demo purpose
-        if( index == 1 )
-            return java.sql.Types.INTEGER;   // as defined in data set extension manifest
+//
+//        if( index == 1 )
+//            return java.sql.Types.INTEGER;   // as defined in data set extension manifest
         return java.sql.Types.CHAR;          // as defined in data set extension manifest
 	}
 
