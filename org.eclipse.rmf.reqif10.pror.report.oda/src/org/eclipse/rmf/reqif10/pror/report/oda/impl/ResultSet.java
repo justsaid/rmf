@@ -32,9 +32,25 @@ import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.ReflectiveItemProviderAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.eclipse.rmf.reqif10.AttributeDefinition;
+import org.eclipse.rmf.reqif10.AttributeDefinitionBoolean;
+import org.eclipse.rmf.reqif10.AttributeDefinitionDate;
+import org.eclipse.rmf.reqif10.AttributeDefinitionEnumeration;
+import org.eclipse.rmf.reqif10.AttributeDefinitionInteger;
+import org.eclipse.rmf.reqif10.AttributeDefinitionReal;
+import org.eclipse.rmf.reqif10.AttributeDefinitionString;
+import org.eclipse.rmf.reqif10.AttributeDefinitionXHTML;
 import org.eclipse.rmf.reqif10.AttributeValue;
+import org.eclipse.rmf.reqif10.AttributeValueBoolean;
+import org.eclipse.rmf.reqif10.AttributeValueDate;
+import org.eclipse.rmf.reqif10.AttributeValueEnumeration;
+import org.eclipse.rmf.reqif10.AttributeValueInteger;
+import org.eclipse.rmf.reqif10.AttributeValueReal;
+import org.eclipse.rmf.reqif10.AttributeValueString;
+import org.eclipse.rmf.reqif10.AttributeValueXHTML;
 import org.eclipse.rmf.reqif10.EnumValue;
 import org.eclipse.rmf.reqif10.ReqIF;
+import org.eclipse.rmf.reqif10.ReqIF10Factory;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
 import org.eclipse.rmf.reqif10.SpecObject;
 import org.eclipse.rmf.reqif10.Specification;
@@ -80,6 +96,7 @@ public class ResultSet implements IResultSet {
 	private List<String[]> matrix;
 	private AdapterFactoryEditingDomain editingDomain;
 
+	
 	public ResultSet(Connection connection) {
 		currentRowId = ROW_INITIAL_VALUE;
 		this.connection = connection;
@@ -87,6 +104,7 @@ public class ResultSet implements IResultSet {
 		this.specifications = reqif.getCoreContent().getSpecifications();
 		// at first we'll only consider the first spec of an ReqIF file
 		this.specification = specifications.get(0);
+		
 		
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
@@ -143,19 +161,23 @@ public class ResultSet implements IResultSet {
 
 		ProrSpecViewConfiguration config = ConfigurationUtil
 				.createSpecViewConfiguration(specification, editingDomain);
-
+		
 		fillRecursiv(specification.getChildren(), config, matrix, 0, 0);
 		return matrix;
 	}
 
+	
+	
 	public void fillRecursiv(EList<SpecHierarchy> children,
 			ProrSpecViewConfiguration config, List<String[]> matrix, int rowId, int indent) {
 
 		Iterator<SpecHierarchy> it = children.iterator();
+		
 
 		while (it.hasNext()) {
 			SpecHierarchy specH = it.next();
 			SpecObject specObj = specH.getObject();
+			
 			
 			matrix.add(new String[config.getColumns().size()]);
 
@@ -167,10 +189,9 @@ public class ResultSet implements IResultSet {
 					AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
 							specObj, column.getLabel());
 
-					matrix.get(rowId)[columnId] = multiplyString("    ", indent) + getDefaultValue(av);
+					matrix.get(rowId)[columnId] = multiplyString("", indent) + getDefaultValue(av);
 					columnId++;
 					
-					System.out.println( column.getLabel());
 				}
 			}
 			rowId++;
@@ -252,7 +273,6 @@ public class ResultSet implements IResultSet {
 	}
 
 	public int getInt(int index) throws OdaException {
-//		return 0;
 		String entry = matrix.get(currentRowId)[index - 1];
 		return Integer.parseInt(entry);
 	}
