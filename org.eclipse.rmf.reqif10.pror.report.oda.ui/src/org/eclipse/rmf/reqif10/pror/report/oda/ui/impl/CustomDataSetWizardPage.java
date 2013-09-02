@@ -106,12 +106,13 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
         {
             public void modifyText( ModifyEvent e )
             {
-//            	setPageComplete(true);
+            	setPageComplete(true);
                 validateData();
             }
         } );
        
         setPageComplete( false );
+//    	setPageComplete(true);
         return composite;
     }
 
@@ -200,15 +201,17 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
      */
 	private void validateData( )
 	{
-        boolean isValid = ( m_queryTextField != null &&
-            getQueryText() != null && getQueryText().trim().length() > 0 );
-
-        if( isValid )
-            setMessage( DEFAULT_MESSAGE );
-        else
-            setMessage( "Requires input value.", ERROR );
-
-		setPageComplete( isValid );
+		//we need no query
+		setPageComplete(true);
+//        boolean isValid = ( m_queryTextField != null &&
+//            getQueryText() != null && getQueryText().trim().length() > 0 );
+//
+//        if( isValid )
+//            setMessage( DEFAULT_MESSAGE );
+//        else
+//            setMessage( "Requires input value.", ERROR );
+//
+//		setPageComplete( isValid );
 	}
 
 	/**
