@@ -72,12 +72,9 @@ public class ResultSetMetaHelper {
 
 				int columnId = 0;
 				for (Column column : config.getColumns()) {
+					String colName = column.getLabel();
 					AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
-							specObj, column.getLabel());
-
-					matrix.get(rowId)[columnId] = multiplyString(" --", indent)
-							+ getDefaultValue(av);
-					columnId++;
+							specObj, colName);
 
 					// //// filling columntypes
 
@@ -85,7 +82,7 @@ public class ResultSetMetaHelper {
 					AttributeValue value = ReqIF10Util
 							.getAttributeValueForLabel(specObj,
 									column.getLabel());
-
+					
 					if(value != null){
 					AttributeDefinition attributeDefinition = ReqIF10Util
 							.getAttributeDefinition(value);
@@ -110,10 +107,24 @@ public class ResultSetMetaHelper {
 								"Type not supported: " + attributeDefinition); //$NON-NLS-1$
 					}
 					if (columnType != -1)
-						if (!columnTypes.containsKey(column.getLabel()))
-							columnTypes.put(column.getLabel(), columnType);
+						if (!columnTypes.containsKey(colName))
+							columnTypes.put(colName, columnType);
 
 					// //
+					
+					
+//					int type = columnTypes.get(colName);
+
+					if (getDefaultValue(av) != null)
+						matrix.get(rowId)[columnId] = multiplyString("", indent)
+								+ getDefaultValue(av);
+					else{
+						matrix.get(rowId)[columnId] = getNullValue(columnType);
+					}
+					columnId++;
+					//
+					
+					
 					System.out.println(column.getLabel());
 				}
 			}
@@ -121,6 +132,34 @@ public class ResultSetMetaHelper {
 			fillRecursiv(specH.getChildren(), config, matrix, rowId, indent + 1);
 		}
 
+	}
+	
+	private String getNullValue(int type) {
+		String nullValue = "";
+
+		switch (type) {
+		case java.sql.Types.BOOLEAN:
+			nullValue = "";
+			break;
+		case java.sql.Types.DATE:
+			nullValue = "";
+			break;
+		case java.sql.Types.INTEGER:
+			nullValue = "-1";
+			break;
+		case java.sql.Types.REAL:
+			nullValue = "-1.0";
+			break;
+		case java.sql.Types.CHAR:
+			nullValue = "";
+			break;
+		case java.sql.Types.OTHER:
+			nullValue = "";
+			break;
+		default:
+			break;
+		}
+		return nullValue;
 	}
 
 	private String multiplyString(String str, int times) {
@@ -135,7 +174,7 @@ public class ResultSetMetaHelper {
 		Object value = av == null ? null : ReqIF10Util.getTheValue(av);
 		String textValue;
 		if (value == null) {
-			textValue = "";
+			textValue = null	;
 		} else if (value instanceof List<?>) {
 			textValue = "";
 			for (Iterator<?> i = ((List<?>) value).iterator(); i.hasNext();) {

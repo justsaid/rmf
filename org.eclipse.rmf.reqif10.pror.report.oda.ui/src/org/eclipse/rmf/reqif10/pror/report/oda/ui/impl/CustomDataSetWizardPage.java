@@ -78,7 +78,7 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
 	 */
 	public void createPageCustomControl( Composite parent )
 	{
-        setControl( createPageControl( parent ) );
+//        setControl( createPageControl( parent ) );
         initializeControl();
 	}
     
@@ -106,13 +106,12 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
         {
             public void modifyText( ModifyEvent e )
             {
-            	setPageComplete(true);
+//            	setPageComplete(true);
                 validateData();
             }
         } );
        
         setPageComplete( false );
-//    	setPageComplete(true);
         return composite;
     }
 
@@ -131,7 +130,8 @@ public class CustomDataSetWizardPage extends DataSetWizardPage
         if( dataSetDesign == null )
             return; // nothing to initialize
 
-        String queryText = dataSetDesign.getQueryText();
+//        String queryText = dataSetDesign.getQueryText();
+        String queryText = null;
         if( queryText == null )
             return; // nothing to initialize
 

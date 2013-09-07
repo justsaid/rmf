@@ -88,15 +88,15 @@ public class ResultSet implements IResultSet {
 	private String query;
 	private ReqIF reqif;
 	private EList<Specification> specifications;
-	
+
 	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault();
 
 	private Specification specification;
 
 	private List<String[]> matrix;
 	private AdapterFactoryEditingDomain editingDomain;
+	private ResultSetMetaHelper rsetHelper;
 
-	
 	public ResultSet(Connection connection) {
 		currentRowId = ROW_INITIAL_VALUE;
 		this.connection = connection;
@@ -104,8 +104,7 @@ public class ResultSet implements IResultSet {
 		this.specifications = reqif.getCoreContent().getSpecifications();
 		// at first we'll only consider the first spec of an ReqIF file
 		this.specification = specifications.get(0);
-		
-		
+
 		ComposedAdapterFactory adapterFactory = new ComposedAdapterFactory(
 				ComposedAdapterFactory.Descriptor.Registry.INSTANCE);
 		adapterFactory
@@ -127,9 +126,17 @@ public class ResultSet implements IResultSet {
 		BasicCommandStack commandStack = new BasicCommandStack();
 		editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
 				commandStack, new ReqIFResourceSetImpl());
-		
-		initiateMatrix();
-		
+
+		ProrSpecViewConfiguration config = ConfigurationUtil
+				.createSpecViewConfiguration(this.reqif.getCoreContent()
+						.getSpecifications().get(0), editingDomain);
+
+		Specification spec = reqif.getCoreContent().getSpecifications().get(0);
+		rsetHelper = new ResultSetMetaHelper(spec.getChildren(), config);
+
+		matrix = rsetHelper.getMatrix();
+		// initiateMatrix();
+
 	}
 
 	public IResultSetMetaData getMetaData() throws OdaException {
@@ -157,41 +164,46 @@ public class ResultSet implements IResultSet {
 		matrix = fillMatrix(m);
 	}
 
-	public List<String[]> fillMatrix(List<String[]> matrix) {
+	private List<String[]> fillMatrix(List<String[]> matrix) {
 
 		ProrSpecViewConfiguration config = ConfigurationUtil
 				.createSpecViewConfiguration(specification, editingDomain);
-		
+
 		fillRecursiv(specification.getChildren(), config, matrix, 0, 0);
 		return matrix;
 	}
 
-	
-	
-	public void fillRecursiv(EList<SpecHierarchy> children,
-			ProrSpecViewConfiguration config, List<String[]> matrix, int rowId, int indent) {
+	private void fillRecursiv(EList<SpecHierarchy> children,
+			ProrSpecViewConfiguration config, List<String[]> matrix, int rowId,
+			int indent) {
 
 		Iterator<SpecHierarchy> it = children.iterator();
-		
 
 		while (it.hasNext()) {
 			SpecHierarchy specH = it.next();
 			SpecObject specObj = specH.getObject();
-			
-			
+
 			matrix.add(new String[config.getColumns().size()]);
 
 			if (specObj != null) {
-				
-				
+
 				int columnId = 0;
 				for (Column column : config.getColumns()) {
+					String colName = column.getLabel();
 					AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
-							specObj, column.getLabel());
+							specObj, colName);
 
-					matrix.get(rowId)[columnId] = multiplyString("", indent) + getDefaultValue(av);
+					Map<String, Integer> columnTypes = rsetHelper
+							.getColumnTypes();
+					int type = columnTypes.get(colName);
+
+					if (getDefaultValue(av) != null)
+						matrix.get(rowId)[columnId] = multiplyString("", indent)
+								+ getDefaultValue(av);
+					else
+						matrix.get(rowId)[columnId] = getNullValue(type);
+
 					columnId++;
-					
 				}
 			}
 			rowId++;
@@ -199,19 +211,49 @@ public class ResultSet implements IResultSet {
 		}
 
 	}
-	private String multiplyString(String str, int times)
-	{
+
+	private String getNullValue(int type) {
+		String nullValue = "";
+
+		switch (type) {
+		case java.sql.Types.BOOLEAN:
+			nullValue = "";
+			break;
+		case java.sql.Types.DATE:
+			nullValue = "";
+			break;
+		case java.sql.Types.INTEGER:
+			nullValue = "-1";
+			break;
+		case java.sql.Types.REAL:
+			nullValue = "-1.0";
+			break;
+		case java.sql.Types.CHAR:
+			nullValue = "";
+			break;
+		case java.sql.Types.OTHER:
+			nullValue = "";
+			break;
+		default:
+			break;
+		}
+
+		return nullValue;
+	}
+
+	private String multiplyString(String str, int times) {
 		StringBuilder strb = new StringBuilder();
 		for (int i = 0; i < times; i++) {
 			strb.append(str);
 		}
 		return strb.toString();
 	}
+
 	private static String getDefaultValue(AttributeValue av) {
 		Object value = av == null ? null : ReqIF10Util.getTheValue(av);
 		String textValue;
 		if (value == null) {
-			textValue = "";
+			textValue = null;
 		} else if (value instanceof List<?>) {
 			textValue = "";
 			for (Iterator<?> i = ((List<?>) value).iterator(); i.hasNext();) {
@@ -237,23 +279,20 @@ public class ResultSet implements IResultSet {
 		}
 		return textValue;
 	}
-	
-	
-	public boolean next() throws OdaException
-	{
-        
-        int maxRows = matrix.size();
-        
-        if( currentRowId < maxRows - 1 )
-        {
-            currentRowId++;
-            if (matrix.get(currentRowId) != null)
-            return true;
-            else
-            	return false;
-        }
-        
-        return false;        
+
+	public boolean next() throws OdaException {
+
+		int maxRows = matrix.size();
+
+		if (currentRowId < maxRows - 1) {
+			currentRowId++;
+			if (matrix.get(currentRowId) != null)
+				return true;
+			else
+				return false;
+		}
+
+		return false;
 	}
 
 	public void close() throws OdaException {
@@ -304,6 +343,7 @@ public class ResultSet implements IResultSet {
 	public Date getDate(String columnName) throws OdaException {
 		return getDate(findColumn(columnName));
 	}
+
 	public Time getTime(int index) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
@@ -315,6 +355,7 @@ public class ResultSet implements IResultSet {
 	public Timestamp getTimestamp(int index) throws OdaException {
 		throw new UnsupportedOperationException();
 	}
+
 	public Timestamp getTimestamp(String columnName) throws OdaException {
 		return getTimestamp(findColumn(columnName));
 	}
@@ -362,29 +403,27 @@ public class ResultSet implements IResultSet {
 
 		EList<Column> columns = config.getColumns();
 		Set<String> columnSet = new HashSet<String>();
-		Map<String,Integer> columnIdxMap = new HashMap<String, Integer>();
-		
+		Map<String, Integer> columnIdxMap = new HashMap<String, Integer>();
+
 		int idx = 0;
-		for(Column col : columns){
+		for (Column col : columns) {
 			columnSet.add(col.getLabel());
 			columnIdxMap.put(col.getLabel(), idx);
 			idx++;
 		}
-		
-		
-//		int columnId = 1; // dummy column id
-//		if (columnName == null || columnName.length() == 0)
-//			return columnId;
-		if(columnSet.contains(columnName))
-		{
+
+		// int columnId = 1; // dummy column id
+		// if (columnName == null || columnName.length() == 0)
+		// return columnId;
+		if (columnSet.contains(columnName)) {
 			return columnIdxMap.get(columnName);
 		}
-//		String lastChar = columnName.substring(columnName.length() - 1, 1);
-//		try {
-//			columnId = Integer.parseInt(lastChar);
-//		} catch (NumberFormatException e) {
-//			// ignore, use dummy column id
-//		}
+		// String lastChar = columnName.substring(columnName.length() - 1, 1);
+		// try {
+		// columnId = Integer.parseInt(lastChar);
+		// } catch (NumberFormatException e) {
+		// // ignore, use dummy column id
+		// }
 		return -1;
 	}
 
