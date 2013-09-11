@@ -9,6 +9,8 @@
         eType="#//ProrGeneralConfiguration" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="presentationConfigurations"
         lowerBound="1" eType="#//ProrPresentationConfigurations" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filterConfigurations" upperBound="-1"
+        eType="#//ProrFilterConfiguration" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ProrSpecViewConfiguration">
     <eStructuralFeatures xsi:type="ecore:EReference" name="specification" lowerBound="1"
@@ -40,11 +42,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultLabel" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Filters">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="filters" upperBound="-1"
-        eType="#//Filter"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProrFilterConfiguration" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Filter">
+  <eClassifiers xsi:type="ecore:EClass" name="ProrDefaultFilter" eSuperTypes="#//ProrFilterConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="regexp" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass ../../org.eclipse.rmf.reqif10/model/reqif10.ecore#//AttributeDefinition"/>
   </eClassifiers>

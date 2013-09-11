@@ -118,6 +118,19 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case ConfigurationPackage.PROR_FILTER_CONFIGURATION: {
+				ProrFilterConfiguration prorFilterConfiguration = (ProrFilterConfiguration)theEObject;
+				T result = caseProrFilterConfiguration(prorFilterConfiguration);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ConfigurationPackage.PROR_DEFAULT_FILTER: {
+				ProrDefaultFilter prorDefaultFilter = (ProrDefaultFilter)theEObject;
+				T result = caseProrDefaultFilter(prorDefaultFilter);
+				if (result == null) result = caseProrFilterConfiguration(prorDefaultFilter);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -224,6 +237,36 @@ public class ConfigurationSwitch<T> extends Switch<T> {
 	 * @generated
 	 */
 	public T caseLabelConfiguration(LabelConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Pror Filter Configuration</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Pror Filter Configuration</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProrFilterConfiguration(ProrFilterConfiguration object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Pror Default Filter</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Pror Default Filter</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseProrDefaultFilter(ProrDefaultFilter object) {
 		return null;
 	}
 

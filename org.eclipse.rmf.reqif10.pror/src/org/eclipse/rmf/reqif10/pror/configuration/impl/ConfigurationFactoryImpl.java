@@ -68,6 +68,7 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 			case ConfigurationPackage.PROR_PRESENTATION_CONFIGURATIONS: return createProrPresentationConfigurations();
 			case ConfigurationPackage.PROR_GENERAL_CONFIGURATION: return createProrGeneralConfiguration();
 			case ConfigurationPackage.LABEL_CONFIGURATION: return createLabelConfiguration();
+			case ConfigurationPackage.PROR_DEFAULT_FILTER: return createProrDefaultFilter();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -131,6 +132,16 @@ public class ConfigurationFactoryImpl extends EFactoryImpl implements Configurat
 	public LabelConfiguration createLabelConfiguration() {
 		LabelConfigurationImpl labelConfiguration = new LabelConfigurationImpl();
 		return labelConfiguration;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ProrDefaultFilter createProrDefaultFilter() {
+		ProrDefaultFilterImpl prorDefaultFilter = new ProrDefaultFilterImpl();
+		return prorDefaultFilter;
 	}
 
 	/**

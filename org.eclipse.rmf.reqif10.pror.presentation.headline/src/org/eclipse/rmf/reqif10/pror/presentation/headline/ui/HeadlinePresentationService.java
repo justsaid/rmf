@@ -14,6 +14,8 @@ import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfiguration;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.AbstractPresentationService;
 import org.eclipse.rmf.reqif10.pror.presentation.headline.HeadlineFactory;
 
+
+
 public class HeadlinePresentationService extends AbstractPresentationService {
 
 

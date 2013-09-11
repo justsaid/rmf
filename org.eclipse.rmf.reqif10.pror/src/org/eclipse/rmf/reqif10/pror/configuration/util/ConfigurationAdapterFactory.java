@@ -103,6 +103,14 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 				return createLabelConfigurationAdapter();
 			}
 			@Override
+			public Adapter caseProrFilterConfiguration(ProrFilterConfiguration object) {
+				return createProrFilterConfigurationAdapter();
+			}
+			@Override
+			public Adapter caseProrDefaultFilter(ProrDefaultFilter object) {
+				return createProrDefaultFilterAdapter();
+			}
+			@Override
 			public Adapter caseReqIFToolExtension(ReqIFToolExtension object) {
 				return createReqIFToolExtensionAdapter();
 			}
@@ -221,6 +229,34 @@ public class ConfigurationAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createLabelConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration <em>Pror Filter Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration
+	 * @generated
+	 */
+	public Adapter createProrFilterConfigurationAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter <em>Pror Default Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter
+	 * @generated
+	 */
+	public Adapter createProrDefaultFilterAdapter() {
 		return null;
 	}
 

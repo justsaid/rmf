@@ -128,6 +128,19 @@ Contributors:
                style="push"
                toolbarPath="additions">
          </action>
+         
+         
+         <action
+               class="org.eclipse.rmf.reqif10.pror.editor.actions.FilterConfigurationActionDelegate"
+               icon="icons/full/obj16/Column.png"
+               id="org.eclipse.rmf.reqif10.pror.editor.FilterConfiguration"
+               label="Filter"
+               menubarPath="org.eclipse.rmf.reqif10MenuID/additions"
+               style="push"
+               toolbarPath="additions">
+         </action>
+         
+         
          <action
                class="org.eclipse.rmf.reqif10.pror.editor.actions.PresentationConfigurationActionDelegate"
                icon="icons/full/obj16/ReqIFToolExtension.png"

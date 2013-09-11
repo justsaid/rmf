@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xhtml"
-    nsURI="http://www.w3.org/1999/xhtml" nsPrefix="xhtml">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xhtml" nsURI="http://www.w3.org/1999/xhtml" nsPrefix="xhtml">
   <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
     <details key="documentation" value="&#xA;      Block Structural&#xA;&#xA;        * div, p&#xA;  &#xA;      This module declares the elements and their attributes used to&#xA;      support block-level structural markup.            &#xA;          &#xA;      This is the XML Schema Block Structural module for XHTML&#xA;      $Id: xhtml-blkstruct-1.xsd,v 1.1 2010/07/29 13:42:50 bertails Exp $&#xA;    &#xA;&#xA;&#xA;          XHTML Datatypes&#xA;          This is the XML Schema datatypes module for XHTML&#xA;          &#xA;          Defines containers for the XHTML datatypes, many of&#xA;          these imported from other specifications and standards.&#xA;          &#xA;          $Id: xhtml-datatypes-1.xsd,v 1.1 2010/07/29 13:42:51 bertails Exp $&#xA;        &#xA;&#xA;"/>
   </eAnnotations>

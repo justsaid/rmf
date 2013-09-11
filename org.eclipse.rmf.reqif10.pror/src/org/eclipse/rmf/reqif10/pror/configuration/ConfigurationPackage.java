@@ -112,13 +112,22 @@ public interface ConfigurationPackage extends EPackage {
 	int PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS = ReqIF10Package.REQ_IF_TOOL_EXTENSION_FEATURE_COUNT + 2;
 
 	/**
+	 * The feature id for the '<em><b>Filter Configurations</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS = ReqIF10Package.REQ_IF_TOOL_EXTENSION_FEATURE_COUNT + 3;
+
+	/**
 	 * The number of structural features of the '<em>Pror Tool Extension</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PROR_TOOL_EXTENSION_FEATURE_COUNT = ReqIF10Package.REQ_IF_TOOL_EXTENSION_FEATURE_COUNT + 3;
+	int PROR_TOOL_EXTENSION_FEATURE_COUNT = ReqIF10Package.REQ_IF_TOOL_EXTENSION_FEATURE_COUNT + 4;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrSpecViewConfigurationImpl <em>Pror Spec View Configuration</em>}' class.
@@ -317,6 +326,80 @@ public interface ConfigurationPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrFilterConfigurationImpl <em>Pror Filter Configuration</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ProrFilterConfigurationImpl
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ConfigurationPackageImpl#getProrFilterConfiguration()
+	 * @generated
+	 */
+	int PROR_FILTER_CONFIGURATION = 7;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_FILTER_CONFIGURATION__NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>Pror Filter Configuration</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_FILTER_CONFIGURATION_FEATURE_COUNT = 1;
+
+	/**
+	 * The meta object id for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrDefaultFilterImpl <em>Pror Default Filter</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ProrDefaultFilterImpl
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ConfigurationPackageImpl#getProrDefaultFilter()
+	 * @generated
+	 */
+	int PROR_DEFAULT_FILTER = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_DEFAULT_FILTER__NAME = PROR_FILTER_CONFIGURATION__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Regexp</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_DEFAULT_FILTER__REGEXP = PROR_FILTER_CONFIGURATION_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Attribute</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_DEFAULT_FILTER__ATTRIBUTE = PROR_FILTER_CONFIGURATION_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of structural features of the '<em>Pror Default Filter</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PROR_DEFAULT_FILTER_FEATURE_COUNT = PROR_FILTER_CONFIGURATION_FEATURE_COUNT + 2;
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension <em>Pror Tool Extension</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -358,6 +441,17 @@ public interface ConfigurationPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getProrToolExtension_PresentationConfigurations();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getFilterConfigurations <em>Filter Configurations</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Filter Configurations</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getFilterConfigurations()
+	 * @see #getProrToolExtension()
+	 * @generated
+	 */
+	EReference getProrToolExtension_FilterConfigurations();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration <em>Pror Spec View Configuration</em>}'.
@@ -519,6 +613,59 @@ public interface ConfigurationPackage extends EPackage {
 	EAttribute getLabelConfiguration_DefaultLabel();
 
 	/**
+	 * Returns the meta object for class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration <em>Pror Filter Configuration</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Pror Filter Configuration</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration
+	 * @generated
+	 */
+	EClass getProrFilterConfiguration();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration#getName()
+	 * @see #getProrFilterConfiguration()
+	 * @generated
+	 */
+	EAttribute getProrFilterConfiguration_Name();
+
+	/**
+	 * Returns the meta object for class '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter <em>Pror Default Filter</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Pror Default Filter</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter
+	 * @generated
+	 */
+	EClass getProrDefaultFilter();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter#getRegexp <em>Regexp</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Regexp</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter#getRegexp()
+	 * @see #getProrDefaultFilter()
+	 * @generated
+	 */
+	EAttribute getProrDefaultFilter_Regexp();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter#getAttribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Attribute</em>'.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter#getAttribute()
+	 * @see #getProrDefaultFilter()
+	 * @generated
+	 */
+	EReference getProrDefaultFilter_Attribute();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -573,6 +720,14 @@ public interface ConfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EReference PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS = eINSTANCE.getProrToolExtension_PresentationConfigurations();
+
+		/**
+		 * The meta object literal for the '<em><b>Filter Configurations</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS = eINSTANCE.getProrToolExtension_FilterConfigurations();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrSpecViewConfigurationImpl <em>Pror Spec View Configuration</em>}' class.
@@ -705,6 +860,50 @@ public interface ConfigurationPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute LABEL_CONFIGURATION__DEFAULT_LABEL = eINSTANCE.getLabelConfiguration_DefaultLabel();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrFilterConfigurationImpl <em>Pror Filter Configuration</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ProrFilterConfigurationImpl
+		 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ConfigurationPackageImpl#getProrFilterConfiguration()
+		 * @generated
+		 */
+		EClass PROR_FILTER_CONFIGURATION = eINSTANCE.getProrFilterConfiguration();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROR_FILTER_CONFIGURATION__NAME = eINSTANCE.getProrFilterConfiguration_Name();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrDefaultFilterImpl <em>Pror Default Filter</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ProrDefaultFilterImpl
+		 * @see org.eclipse.rmf.reqif10.pror.configuration.impl.ConfigurationPackageImpl#getProrDefaultFilter()
+		 * @generated
+		 */
+		EClass PROR_DEFAULT_FILTER = eINSTANCE.getProrDefaultFilter();
+
+		/**
+		 * The meta object literal for the '<em><b>Regexp</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PROR_DEFAULT_FILTER__REGEXP = eINSTANCE.getProrDefaultFilter_Regexp();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference PROR_DEFAULT_FILTER__ATTRIBUTE = eINSTANCE.getProrDefaultFilter_Attribute();
 
 	}
 

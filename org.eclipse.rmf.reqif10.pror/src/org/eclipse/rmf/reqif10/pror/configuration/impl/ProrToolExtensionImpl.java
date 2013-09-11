@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.rmf.reqif10.impl.ReqIFToolExtensionImpl;
 import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationPackage;
+import org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrGeneralConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfigurations;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
@@ -38,6 +39,7 @@ import org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension;
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrToolExtensionImpl#getSpecViewConfigurations <em>Spec View Configurations</em>}</li>
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrToolExtensionImpl#getGeneralConfiguration <em>General Configuration</em>}</li>
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrToolExtensionImpl#getPresentationConfigurations <em>Presentation Configurations</em>}</li>
+ *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.impl.ProrToolExtensionImpl#getFilterConfigurations <em>Filter Configurations</em>}</li>
  * </ul>
  * </p>
  *
@@ -73,6 +75,16 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 	 * @ordered
 	 */
 	protected ProrPresentationConfigurations presentationConfigurations;
+
+	/**
+	 * The cached value of the '{@link #getFilterConfigurations() <em>Filter Configurations</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getFilterConfigurations()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ProrFilterConfiguration> filterConfigurations;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -197,6 +209,18 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ProrFilterConfiguration> getFilterConfigurations() {
+		if (filterConfigurations == null) {
+			filterConfigurations = new EObjectContainmentEList<ProrFilterConfiguration>(ProrFilterConfiguration.class, this, ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS);
+		}
+		return filterConfigurations;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -206,6 +230,8 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 				return basicSetGeneralConfiguration(null, msgs);
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
 				return basicSetPresentationConfigurations(null, msgs);
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
+				return ((InternalEList<?>)getFilterConfigurations()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -224,6 +250,8 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 				return getGeneralConfiguration();
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
 				return getPresentationConfigurations();
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
+				return getFilterConfigurations();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -247,6 +275,10 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
 				setPresentationConfigurations((ProrPresentationConfigurations)newValue);
 				return;
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
+				getFilterConfigurations().clear();
+				getFilterConfigurations().addAll((Collection<? extends ProrFilterConfiguration>)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -268,6 +300,9 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
 				setPresentationConfigurations((ProrPresentationConfigurations)null);
 				return;
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
+				getFilterConfigurations().clear();
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -286,6 +321,8 @@ public class ProrToolExtensionImpl extends ReqIFToolExtensionImpl implements Pro
 				return generalConfiguration != null;
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
 				return presentationConfigurations != null;
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
+				return filterConfigurations != null && !filterConfigurations.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

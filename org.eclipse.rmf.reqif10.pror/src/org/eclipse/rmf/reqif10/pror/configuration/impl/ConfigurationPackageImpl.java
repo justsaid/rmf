@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
 import org.eclipse.rmf.reqif10.datatypes.DatatypesPackage;
 import org.eclipse.rmf.reqif10.datatypes.impl.DatatypesPackageImpl;
@@ -25,6 +26,8 @@ import org.eclipse.rmf.reqif10.pror.configuration.Column;
 import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationFactory;
 import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationPackage;
 import org.eclipse.rmf.reqif10.pror.configuration.LabelConfiguration;
+import org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter;
+import org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrGeneralConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfigurations;
@@ -90,6 +93,20 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	private EClass labelConfigurationEClass = null;
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass prorFilterConfigurationEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass prorDefaultFilterEClass = null;
+
+	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
 	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
 	 * package URI value.
@@ -137,6 +154,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 
 		// Initialize simple dependencies
 		XMLNamespacePackage.eINSTANCE.eClass();
+		XMLTypePackage.eINSTANCE.eClass();
 
 		// Obtain or create and register interdependencies
 		ReqIF10PackageImpl theReqIF10Package = (ReqIF10PackageImpl)(EPackage.Registry.INSTANCE.getEPackage(ReqIF10Package.eNS_URI) instanceof ReqIF10PackageImpl ? EPackage.Registry.INSTANCE.getEPackage(ReqIF10Package.eNS_URI) : ReqIF10Package.eINSTANCE);
@@ -202,6 +220,15 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 */
 	public EReference getProrToolExtension_PresentationConfigurations() {
 		return (EReference)prorToolExtensionEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProrToolExtension_FilterConfigurations() {
+		return (EReference)prorToolExtensionEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -344,6 +371,51 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getProrFilterConfiguration() {
+		return prorFilterConfigurationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProrFilterConfiguration_Name() {
+		return (EAttribute)prorFilterConfigurationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getProrDefaultFilter() {
+		return prorDefaultFilterEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getProrDefaultFilter_Regexp() {
+		return (EAttribute)prorDefaultFilterEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getProrDefaultFilter_Attribute() {
+		return (EReference)prorDefaultFilterEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ConfigurationFactory getConfigurationFactory() {
 		return (ConfigurationFactory)getEFactoryInstance();
 	}
@@ -371,6 +443,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 		createEReference(prorToolExtensionEClass, PROR_TOOL_EXTENSION__SPEC_VIEW_CONFIGURATIONS);
 		createEReference(prorToolExtensionEClass, PROR_TOOL_EXTENSION__GENERAL_CONFIGURATION);
 		createEReference(prorToolExtensionEClass, PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS);
+		createEReference(prorToolExtensionEClass, PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS);
 
 		prorSpecViewConfigurationEClass = createEClass(PROR_SPEC_VIEW_CONFIGURATION);
 		createEReference(prorSpecViewConfigurationEClass, PROR_SPEC_VIEW_CONFIGURATION__SPECIFICATION);
@@ -392,6 +465,13 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 
 		labelConfigurationEClass = createEClass(LABEL_CONFIGURATION);
 		createEAttribute(labelConfigurationEClass, LABEL_CONFIGURATION__DEFAULT_LABEL);
+
+		prorFilterConfigurationEClass = createEClass(PROR_FILTER_CONFIGURATION);
+		createEAttribute(prorFilterConfigurationEClass, PROR_FILTER_CONFIGURATION__NAME);
+
+		prorDefaultFilterEClass = createEClass(PROR_DEFAULT_FILTER);
+		createEAttribute(prorDefaultFilterEClass, PROR_DEFAULT_FILTER__REGEXP);
+		createEReference(prorDefaultFilterEClass, PROR_DEFAULT_FILTER__ATTRIBUTE);
 	}
 
 	/**
@@ -419,6 +499,7 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 
 		// Obtain other dependent packages
 		ReqIF10Package theReqIF10Package = (ReqIF10Package)EPackage.Registry.INSTANCE.getEPackage(ReqIF10Package.eNS_URI);
+		XMLTypePackage theXMLTypePackage = (XMLTypePackage)EPackage.Registry.INSTANCE.getEPackage(XMLTypePackage.eNS_URI);
 
 		// Create type parameters
 
@@ -426,12 +507,14 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 
 		// Add supertypes to classes
 		prorToolExtensionEClass.getESuperTypes().add(theReqIF10Package.getReqIFToolExtension());
+		prorDefaultFilterEClass.getESuperTypes().add(this.getProrFilterConfiguration());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(prorToolExtensionEClass, ProrToolExtension.class, "ProrToolExtension", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProrToolExtension_SpecViewConfigurations(), this.getProrSpecViewConfiguration(), null, "specViewConfigurations", null, 0, -1, ProrToolExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProrToolExtension_GeneralConfiguration(), this.getProrGeneralConfiguration(), null, "generalConfiguration", null, 1, 1, ProrToolExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getProrToolExtension_PresentationConfigurations(), this.getProrPresentationConfigurations(), null, "presentationConfigurations", null, 1, 1, ProrToolExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProrToolExtension_FilterConfigurations(), this.getProrFilterConfiguration(), null, "filterConfigurations", null, 0, -1, ProrToolExtension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(prorSpecViewConfigurationEClass, ProrSpecViewConfiguration.class, "ProrSpecViewConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getProrSpecViewConfiguration_Specification(), theReqIF10Package.getSpecification(), null, "specification", null, 1, 1, ProrSpecViewConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -453,6 +536,13 @@ public class ConfigurationPackageImpl extends EPackageImpl implements Configurat
 
 		initEClass(labelConfigurationEClass, LabelConfiguration.class, "LabelConfiguration", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLabelConfiguration_DefaultLabel(), ecorePackage.getEString(), "defaultLabel", null, 0, -1, LabelConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(prorFilterConfigurationEClass, ProrFilterConfiguration.class, "ProrFilterConfiguration", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProrFilterConfiguration_Name(), ecorePackage.getEString(), "name", null, 1, 1, ProrFilterConfiguration.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(prorDefaultFilterEClass, ProrDefaultFilter.class, "ProrDefaultFilter", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getProrDefaultFilter_Regexp(), theXMLTypePackage.getString(), "regexp", null, 0, 1, ProrDefaultFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getProrDefaultFilter_Attribute(), theReqIF10Package.getAttributeDefinition(), null, "attribute", null, 0, 1, ProrDefaultFilter.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

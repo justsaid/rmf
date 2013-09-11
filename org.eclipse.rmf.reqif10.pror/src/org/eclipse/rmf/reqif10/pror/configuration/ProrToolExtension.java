@@ -25,6 +25,7 @@ import org.eclipse.rmf.reqif10.ReqIFToolExtension;
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getSpecViewConfigurations <em>Spec View Configurations</em>}</li>
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getGeneralConfiguration <em>General Configuration</em>}</li>
  *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getPresentationConfigurations <em>Presentation Configurations</em>}</li>
+ *   <li>{@link org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension#getFilterConfigurations <em>Filter Configurations</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,5 +101,21 @@ public interface ProrToolExtension extends ReqIFToolExtension {
 	 * @generated
 	 */
 	void setPresentationConfigurations(ProrPresentationConfigurations value);
+
+	/**
+	 * Returns the value of the '<em><b>Filter Configurations</b></em>' containment reference list.
+	 * The list contents are of type {@link org.eclipse.rmf.reqif10.pror.configuration.ProrFilterConfiguration}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Filter Configurations</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Filter Configurations</em>' containment reference list.
+	 * @see org.eclipse.rmf.reqif10.pror.configuration.ConfigurationPackage#getProrToolExtension_FilterConfigurations()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<ProrFilterConfiguration> getFilterConfigurations();
 
 } // ProrToolExtension

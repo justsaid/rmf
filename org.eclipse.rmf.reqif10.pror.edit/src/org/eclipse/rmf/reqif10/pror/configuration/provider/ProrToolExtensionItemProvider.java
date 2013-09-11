@@ -87,6 +87,7 @@ public class ProrToolExtensionItemProvider
 			childrenFeatures.add(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__SPEC_VIEW_CONFIGURATIONS);
 			childrenFeatures.add(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__GENERAL_CONFIGURATION);
 			childrenFeatures.add(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS);
+			childrenFeatures.add(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS);
 		}
 		return childrenFeatures;
 	}
@@ -145,6 +146,7 @@ public class ProrToolExtensionItemProvider
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__SPEC_VIEW_CONFIGURATIONS:
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__GENERAL_CONFIGURATION:
 			case ConfigurationPackage.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS:
+			case ConfigurationPackage.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -176,6 +178,11 @@ public class ProrToolExtensionItemProvider
 			(createChildParameter
 				(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__PRESENTATION_CONFIGURATIONS,
 				 ConfigurationFactory.eINSTANCE.createProrPresentationConfigurations()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(ConfigurationPackage.Literals.PROR_TOOL_EXTENSION__FILTER_CONFIGURATIONS,
+				 ConfigurationFactory.eINSTANCE.createProrDefaultFilter()));
 	}
 
 	/**
