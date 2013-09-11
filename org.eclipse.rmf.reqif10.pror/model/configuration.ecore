@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="configuration"
-    nsURI="http://eclipse.org/rmf/pror/toolextensions/1.0" nsPrefix="configuration">
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="configuration" nsURI="http://eclipse.org/rmf/pror/toolextensions/1.0"
+    nsPrefix="configuration">
   <eClassifiers xsi:type="ecore:EClass" name="ProrToolExtension" eSuperTypes="../../org.eclipse.rmf.reqif10/model/reqif10.ecore#//ReqIFToolExtension">
     <eStructuralFeatures xsi:type="ecore:EReference" name="specViewConfigurations"
         upperBound="-1" eType="#//ProrSpecViewConfiguration" containment="true"/>
@@ -40,5 +39,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="LabelConfiguration">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultLabel" upperBound="-1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Filters">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="filters" upperBound="-1"
+        eType="#//Filter"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Filter">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="regexp" eType="ecore:EDataType http://www.eclipse.org/emf/2003/XMLType#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" eType="ecore:EClass ../../org.eclipse.rmf.reqif10/model/reqif10.ecore#//AttributeDefinition"/>
   </eClassifiers>
 </ecore:EPackage>
