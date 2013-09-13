@@ -105,6 +105,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				.createProrToolExtension(reqif, editor.getEditingDomain());
 		launchFilterDialog(toolConfig);
 		
+//		toolConfig.getSpecViewConfigurations().get(0).getSpecification();
 
 
 		// SubtreeDialog dialog = new SubtreeDialog(editor, defaultFilter,
@@ -130,6 +131,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 
 	private Specification createFilteredSpec(ProrDefaultFilter filter,
 			Specification oldSpec) {
+		
 		
 		String regex = filter.getRegexp();
 		AttributeDefinition attrDef = filter.getAttribute();
@@ -173,6 +175,11 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 	
 	private void openSpec(Specification spec) {
 		try {
+			ProrSpecViewConfiguration specViewConf = ConfigurationUtil.createSpecViewConfiguration(this.spec, editor.getEditingDomain());
+			ProrSpecViewConfiguration newSpecViewConf = EcoreUtil.copy(specViewConf);
+			newSpecViewConf.setSpecification(spec);
+			toolConfig.getSpecViewConfigurations().add(newSpecViewConf);
+			
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
 			ReqifSpecificationEditorInput editorInput = new ReqifSpecificationEditorInput(
@@ -181,6 +188,8 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	private void launchFilterDialog(final ProrToolExtension config) {
@@ -203,6 +212,8 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 					EList<ProrFilterConfiguration> filters = toolConfig.getFilterConfigurations();
 					Specification newSpec = createFilteredSpec((ProrDefaultFilter)filters.get(0), spec);
 					editor.getReqifEditor().getReqif().getCoreContent().getSpecifications().add(newSpec);
+					
+					
 					close();
 					openSpec(newSpec);
 					
