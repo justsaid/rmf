@@ -1,0 +1,48 @@
+{
+  "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//Specification",
+  "values" : [ {
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//AttributeValueString",
+    "definition" : {
+      "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-43e192ca-d0cb-4725-8952-b629862e767d",
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//AttributeDefinitionString"
+    }
+  } ],
+  "type" : {
+    "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-1d230f5a-775f-4d31-8c97-b3cadd8b99af",
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecificationType"
+  },
+  "children" : [ {
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecHierarchy",
+    "object" : {
+      "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-0f203199-d8d8-461d-a020-16f0bc1656d7",
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecObject"
+    },
+    "children" : [ ]
+  }, {
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecHierarchy",
+    "object" : {
+      "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-ad50ad60-0d06-41ab-a6d4-9a96f5976531",
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecObject"
+    },
+    "children" : [ {
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecHierarchy",
+      "object" : {
+        "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-5f7fb62c-59ab-40d3-ae61-ec01515be465",
+        "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecObject"
+      }
+    } ]
+  }, {
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecHierarchy",
+    "object" : {
+      "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-2051fcf3-2d10-4889-99e9-efee04a1327d",
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecObject"
+    },
+    "children" : [ ]
+  }, {
+    "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecHierarchy",
+    "object" : {
+      "$ref" : "dump/reqif/Reporting_Usecases.reqif#rmf-fa21b2da-c4d4-4aac-b9f7-ad2789d04a66",
+      "eClass" : "http://www.omg.org/spec/ReqIF/20110401/reqif.xsd#//SpecObject"
+    }
+  } ]
+}
