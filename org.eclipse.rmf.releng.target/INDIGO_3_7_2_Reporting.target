@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
 
-<target includeMode="feature" name="INDIGO_3_7_2" sequenceNumber="71">
+<target includeMode="feature" name="INDIGO_3_7_2" sequenceNumber="72">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.jdt.feature.group" version="3.7.2.v20120120-1414-7z8gFcuFMP7BW5XTz0jLTnz0l9B1"/>
@@ -36,8 +36,14 @@
 <unit id="org.eclipselabs.emfjson.feature.feature.group" version="0.6.0.201305141407"/>
 <unit id="org.eclipselabs.emfjson.ui.feature.feature.group" version="0.6.0.201305141407"/>
 <unit id="org.eclipselabs.emfjson.source.feature.feature.group" version="0.6.0.201305141407"/>
-<unit id="org.codehaus.jackson.feature.feature.group" version="1.9.5.201204111326"/>
 <repository location="http://ghillairet.github.com/p2"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.codehaus.jackson.mapper" version="1.6.0.v20101005-0925"/>
+<unit id="org.codehaus.jackson.mapper.source" version="1.6.0.v20101005-0925"/>
+<unit id="org.codehaus.jackson.core" version="1.6.0.v20101005-0925"/>
+<unit id="org.codehaus.jackson.core.source" version="1.6.0.v20101005-0925"/>
+<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20120526062928/repository/"/>
 </location>
 </locations>
 </target>
