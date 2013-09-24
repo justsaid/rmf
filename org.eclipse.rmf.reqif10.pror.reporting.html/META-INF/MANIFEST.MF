@@ -17,8 +17,10 @@ Require-Bundle: org.junit,
  org.eclipselabs.emfjson;bundle-version="0.6.0",
  org.eclipselabs.emfjson.modelgen;bundle-version="0.6.0",
  org.eclipselabs.emfjson.modelgen.source;bundle-version="0.6.0",
- org.codehaus.jackson.core;bundle-version="1.9.5",
- org.codehaus.jackson.mapper;bundle-version="1.9.5"
+ org.codehaus.jackson.core;bundle-version="1.6.0",
+ org.codehaus.jackson.core.source;bundle-version="1.6.0",
+ org.codehaus.jackson.mapper;bundle-version="1.6.0",
+ org.codehaus.jackson.mapper.source;bundle-version="1.6.0"
 Bundle-Vendor: %providerName
 Bundle-ClassPath: lib/mockito-all-1.8.4.jar,
  .
