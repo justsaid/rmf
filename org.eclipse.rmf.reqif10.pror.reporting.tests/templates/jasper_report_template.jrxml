@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jasper_report_template" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8aa87d18-f9c7-4212-b781-83549c2bfb8b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="ID" class="java.lang.String">
+		<fieldDescription><![CDATA[ID]]></fieldDescription>
+	</field>
+	<field name="Name" class="java.lang.String">
+		<fieldDescription><![CDATA[Name]]></fieldDescription>
+	</field>
+	<field name="Description" class="java.lang.String">
+		<fieldDescription><![CDATA[Description]]></fieldDescription>
+	</field>
+	<field name="Owner" class="java.lang.String">
+		<fieldDescription><![CDATA[Owner]]></fieldDescription>
+	</field>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="40a4dd76-4886-44ec-be10-c04bdbe18ea7" mode="Opaque" x="0" y="3" width="535" height="15" backcolor="#70A9A9"/>
+				<box>
+					<bottomPen lineWidth="1.0" lineColor="#CCCCCC"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eadd76d8-9d2d-46b7-8779-befe1b6cbfca" x="0" y="3" width="136" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="fd95c472-ca13-4b68-b2ee-2e86e58e556d" stretchType="RelativeToBandHeight" mode="Opaque" x="0" y="0" width="535" height="15" isRemoveLineWhenBlank="true" backcolor="#CCCCCC"/>
+				<box>
+					<bottomPen lineWidth="0.25" lineColor="#CCCCCC"/>
+				</box>
+				<textElement/>
+				<text><![CDATA[ ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="0aa6b247-7e37-4f42-a7ca-7d8186b21f12" stretchType="RelativeToBandHeight" x="0" y="0" width="68" height="15"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ID}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="bd503adf-3efe-4114-a88b-a99e59d31ecd" stretchType="RelativeToBandHeight" mode="Transparent" x="163" y="0" width="272" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Description}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="26786ec2-28d3-4ff7-8139-99e26c8a43ae" stretchType="RelativeToBandHeight" x="435" y="0" width="82" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Owner}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement uuid="082b4958-b12a-44b4-9e73-dc26e70c8531" stretchType="RelativeToBandHeight" x="68" y="0" width="95" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{Name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
