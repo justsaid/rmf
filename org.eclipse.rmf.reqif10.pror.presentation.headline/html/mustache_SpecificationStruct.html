@@ -1,0 +1,1804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Mustache Sample</title>
+</head>
+<body>
+
+	<script src="http://github.com/janl/mustache.js/raw/master/mustache.js"></script>  
+	<script src="js/vendor/jquery-1.10.2.min.js"></script>
+
+	<script>
+var data, template, html;
+
+data = {
+            "Specification": [ {
+  "id" : "rmf-98d872e4-145b-4520-8430-f51ff773b6a4",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0001"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Naming conventions and Definitions"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-226476e2-82e5-462b-9955-631e82efe981",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0002"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Relevant Facts and Assumptions"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-266b5236-5142-4459-9f9e-f3e5becf1fdc",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0003"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Scope"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-0ea65654-db66-4b72-a8fb-4fc8fcb6126b",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0004"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Functional and Data Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0005"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Functional Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-0ea65654-db66-4b72-a8fb-4fc8fcb6126b"
+}, {
+  "id" : "rmf-666df803-95e6-43cc-889d-96e0b9e81b79",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0006"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "RMF as Importer / Exporter"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-45e2f0ea-c771-4c27-bddc-cd9b3c963f9f",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0007"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "RMF as ReqIF Editor"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-e9ab0b39-e81a-4ca1-b574-17cb84b2ceb2",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0008"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "RMF as Backend of Requirements management Tools"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-cf7052f0-3fc8-4681-9d5c-f4e0bf216bb6",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0009"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Automatic set of internal IDs"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-8dd54590-45a1-4be4-bc12-e16655b02eed",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0010"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Automatic set of lastModifiedDate"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-914d3b59-8e52-4784-983a-04abde259980",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_0011"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "ReqIF XSD schema validation"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-706411cc-9a88-430c-b4df-46512530fce2",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_26"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "ReqIF semantic constraints validation"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-77744838-24e1-4ced-8e84-b3ecf2cd51a9"
+}, {
+  "id" : "rmf-88c96539-c829-4ea1-9a45-7125ad76715e",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_46"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Data Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-0ea65654-db66-4b72-a8fb-4fc8fcb6126b"
+}, {
+  "id" : "rmf-3daf6f18-b4c4-4dec-b936-8d42c5c37767",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_10"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Metamodel may be more powerful than required by ReqIF standard"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-88c96539-c829-4ea1-9a45-7125ad76715e"
+}, {
+  "id" : "rmf-ef553dbe-9bdf-40ee-9692-b393b351b280",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_11"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Allow flexible separation on files"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "Reuse of datatypes and spectypes for multiple reqif files. Finegrained partitioning for file based version control"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-88c96539-c829-4ea1-9a45-7125ad76715e"
+}, {
+  "id" : "rmf-0f906c4c-449b-4a9e-a4b8-42e035516025",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_13"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Support XHTML entities"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall translate XHTML entities such as '&ouml;' during desrialization into proper UTF-8 characters  "
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "Allows copying of XHTML that often contain HTML entities into ReqIF files"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-88c96539-c829-4ea1-9a45-7125ad76715e"
+}, {
+  "id" : "rmf-1a4974f1-89e3-4c38-8694-fa2e846a3fd6",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_28"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Look and Feel Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-61903909-b396-4673-bdb1-7c1f412d7cf3",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_20"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "error handling shall clearly distinguish between errors that are related to incorrect integration and error that are related to the data which can be fixed by the end user"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-1a4974f1-89e3-4c38-8694-fa2e846a3fd6"
+}, {
+  "id" : "rmf-d0dabe58-8ef8-4403-b979-fd86192ebd10",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_29"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Usability Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-c37dae6d-0393-4975-9350-ac2ede0677f9",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_30"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Ease of Use"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-d0dabe58-8ef8-4403-b979-fd86192ebd10"
+}, {
+  "id" : "rmf-bc4b5966-07b2-4ae0-bb16-7529ff660f98",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_31"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Ease of Learning"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-d0dabe58-8ef8-4403-b979-fd86192ebd10"
+}, {
+  "id" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_32"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Performance Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-32368ba3-e7b5-449d-85af-466aa280036e",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_33"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Speed Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f"
+}, {
+  "id" : "rmf-2f5c544a-3b6c-4bd8-b395-3c2fa556a73a",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_14"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Optimized for scalability"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall be able to read and write files with a size of 100MB ReqIF XML size without running into out of memory"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-32368ba3-e7b5-449d-85af-466aa280036e"
+}, {
+  "id" : "rmf-1ab93c91-3fa3-48ce-b3a3-a7f7a3ee9a40",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_27"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Optimized for performance"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-32368ba3-e7b5-449d-85af-466aa280036e"
+}, {
+  "id" : "rmf-1d92c7ca-2895-40a0-9797-2771e3b109ea",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_34"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Safety Critical Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f"
+}, {
+  "id" : "rmf-1f82b4a3-848b-41a6-b907-a7fbdbdf02ec",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_8"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "No modifications without intention of the user"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall not modify ReqIF files without the intention of the user while reading and writing"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "Avoid unintended modifications such as changing id, adding / removing line breaks, etc."
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : "This includes not to remove or modify tool extensions"
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-1d92c7ca-2895-40a0-9797-2771e3b109ea"
+}, {
+  "id" : "rmf-f0fabd82-5c39-4cdb-a590-223ac71f6c92",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_49"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Preserve order of elements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall preserve the order of XML elements whil reading and writing ReqIF files"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "Simplify manual / automatic diff"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-1f82b4a3-848b-41a6-b907-a7fbdbdf02ec"
+}, {
+  "id" : "rmf-d2799faa-2541-43e4-bf9b-b4efabb13f65",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_50"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Preserve tool extensions"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall preserve the content of tool extensions "
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-1f82b4a3-848b-41a6-b907-a7fbdbdf02ec"
+}, {
+  "id" : "rmf-ed717550-6fad-43e1-accc-a6e85805eb4c",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_51"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Preserve semantic value of data"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall preserve the semantic value of datatypes"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-1f82b4a3-848b-41a6-b907-a7fbdbdf02ec"
+}, {
+  "id" : "rmf-a3222eed-eaeb-443b-a0f5-cdfeceaf0c63",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_35"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Precision Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f"
+}, {
+  "id" : "rmf-bfe30c91-65b9-45c2-b80c-cbf237fd8140",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_48"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "new req"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a3222eed-eaeb-443b-a0f5-cdfeceaf0c63"
+}, {
+  "id" : "rmf-209e4b7d-65f4-41f0-9789-41235b228b1b",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_36"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Reliability and Availability Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f"
+}, {
+  "id" : "rmf-c8af1f71-4f7a-4d2c-b404-702572a1fa80",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_47"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Raise errors for incorrect data"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-209e4b7d-65f4-41f0-9789-41235b228b1b"
+}, {
+  "id" : "rmf-ed6aec59-6ebe-4ebb-accb-597859db7424",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_37"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Capacity Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-dc2e5fae-12a1-43ae-be30-73a97febac1f"
+}, {
+  "id" : "rmf-da90477e-d906-4d3f-bc2e-c727464bda40",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_38"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Operational Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-6ea23d71-6703-4471-9ed3-fabcfcf4b6a3",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_40"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Expected Physical Environment"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-da90477e-d906-4d3f-bc2e-c727464bda40"
+}, {
+  "id" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_39"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Expected Technological Environment"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-da90477e-d906-4d3f-bc2e-c727464bda40"
+}, {
+  "id" : "rmf-7672d601-9035-4b83-83a5-8980d04ebfce",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_3"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Support current and previous Eclipse Release"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall support the current and the previous Eclipse Release"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "maximize the supported platforms"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : "NEW"
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-d9a46d65-4708-4d4c-bd6d-47566f5d4269",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_4"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Executable with oldest Java version required by Eclipse targets"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "RMF shall run with the oldest  Java version that is required by the previous Eclipse release"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "maximize the supported platforms"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : "NEW"
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-b75dd3a4-6272-4b1c-9dc7-23657c6354f0",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_5"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Executable without Eclipse Runtime"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "The RMF metamodel, serialization and validation shall run without Eclipse Runtime"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "allow usage of RMF for adding ReqIF support to Non-Eclipse Tools or simple generator scripts"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : "NEW"
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-3abb1510-285c-4e64-a921-d2379c18dae8",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_6"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Execution Environment Headless Eclipse"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-9543e66f-bbd6-4c85-a28e-9f62ae7433d8",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_7"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Execution Environment Eclipse with UI"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-1fc1412f-703c-4259-8b54-ca989d71ca97",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_12"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Focus on common EMF techniques"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : "Avoid need for support of FeatureMaps. "
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-8a4b5f33-0b7e-404f-bd79-223e790705bd",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_15"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Enable usage in many contexts"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-468d274f-73dd-44a1-b6c3-b56dfa0088fc",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_24"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "may expect validating and namespace aware parser"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-a1dce487-12e8-4d65-945d-83d143f76d15"
+}, {
+  "id" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_41"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Partner Applications"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-da90477e-d906-4d3f-bc2e-c727464bda40"
+}, {
+  "id" : "rmf-2a06c9fe-201b-4d1f-b028-0579ba57a5f0",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_16"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "usage with sample reflective editor"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-bc6e9b80-45bd-4b38-8327-10cdbe38ceb8",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_17"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "usage of tool extensions with provided schema"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-5af4a260-839d-4e98-a9ce-2195395ae47a",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_18"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "usage of tool extensions with provided emf classes"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-69e035b3-02fd-436a-83bd-d83effcd0387",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_19"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "usage of tool extensions with provided emf package as ecore file"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-7fc15d18-596a-445b-aa71-d753ae814ae8",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_25"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "XHTML as string"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-69055d2c-a6ee-4ee8-8e49-bd727d0ea04a",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_23"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "allow usage of RMF parts in standard contexts"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : "e.g. allow usage of RMF Resource in a standard ResourceSet. Should be possible, however cross file references will not be resolved."
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-c7e8299b-4938-4943-b8d1-d522b9c236e9",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_22"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "provide set of standard EMF plugins that allow reuse and many contexts"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-b53c6fdd-9154-48de-ba81-b8c475123795",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_21"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Allow alternative storages"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : "E.g. CDO, Binary"
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-b9e0a4e4-f73a-489b-bea0-45de9e1693f0"
+}, {
+  "id" : "rmf-bf80257b-429a-4425-9212-161391b150fc",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_42"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Maintainability and Portability Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-09a634a7-59ef-4c87-aeaa-12856f46bbf0",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_9"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Reuse of Serialization component"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : "The RMF serialization shall be reusable for all RMF metamodels and metamodels that are not part of RMF"
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : "Extend the amount of users and contributors in order to improve the robustness and performance of the serialization"
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : "ReqIF serialization is based on the default AUTOSAR serialization mechanisms which are not configurable by Extended Metadata or other load and safe options using the standard EMF serialization mechanism. Other projects such as EATOP have shown interest in reusing the RMF serialization"
+  }, {
+    "attrName" : "Author",
+    "attrValue" : "Mark Brörkens"
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-bf80257b-429a-4425-9212-161391b150fc"
+}, {
+  "id" : "rmf-0ad4019b-2034-4689-92bd-c869fe23d120",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_2"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "No warnings in code"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : "rmf-bf80257b-429a-4425-9212-161391b150fc"
+}, {
+  "id" : "rmf-c6a2b4ce-d751-4079-ad03-ffa89f94241d",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_43"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Security Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-ebfd53fd-c581-4eba-935d-4450d9f8925d",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_44"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Cultural and Political Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+}, {
+  "id" : "rmf-2c3d9b2b-70c7-47a4-8e7e-97391904f0b1",
+  "typeName" : "Req Type",
+  "attributes" : [ {
+    "attrName" : "ID",
+    "attrValue" : "sws_45"
+  }, {
+    "attrName" : "Title",
+    "attrValue" : "Legal Requirements"
+  }, {
+    "attrName" : "Description",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Rationale",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Notes",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Author",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Status",
+    "attrValue" : ""
+  }, {
+    "attrName" : "Severity",
+    "attrValue" : ""
+  } ],
+  "parentId" : null
+} ]
+};
+
+
+template = "{{#Specification}}<div>  <div><b>id:</b> {{id}}</div> <div> {{#attributes}} <li>{{attrName}}: {{attrValue}} </li> {{/attributes}}</div>  {{/Specification}}";
+columns = "<table border='1'> <thead> {{#Specification.0}}<tr> {{#attributes}}<th>{{attrName}} </th> {{/attributes}} </tr>  {{/Specification.0}} </thead> ";
+
+tmpl = columns + "<tbody> {{#Specification}} <tr> {{#attributes}}<td> {{attrValue}} </td> {{/attributes}} </tr>  {{/Specification}} </tbody> </table>";
+
+//columns = Mustache.render("{{Specification.0}}",data);
+test = "{{#attributes}} {{attrName}} : {{/attributes}}";
+//alert(columns);
+
+html = Mustache.to_html(tmpl, data);
+
+document.write(html);
+
+	</script>
+</body>
+</html>
