@@ -44,6 +44,7 @@ import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Package;
 import org.eclipse.rmf.reqif10.SpecHierarchy;
 import org.eclipse.rmf.reqif10.SpecObject;
+import org.eclipse.rmf.reqif10.SpecRelation;
 import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.XhtmlContent;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
@@ -183,6 +184,8 @@ public class GenerateJSON {
 		
 			
 	}
+
+	
 	
 	private static void createJSON(Specification spec, String outputName) throws IOException{
 		ResourceSet resourceSet = new ResourceSetImpl();
@@ -277,6 +280,11 @@ public class GenerateJSON {
 				
 				boolean first = true;
 //				html.append("<tr>");
+				// Handle indenting
+//				if (first) {
+//					html.append("<div style='margin-left: " + (indent * 20)
+//							+ "px;'>");
+//				}
 				List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
 				for (Column col : config.getColumns()) {
 					SpecAttributeJSON attr = null;
@@ -328,6 +336,17 @@ public class GenerateJSON {
 		}
 	}
 
+	
+	private static void createReqsLinks(ReqIF reqif){
+		EList<SpecRelation> specRelations = reqif.getCoreContent().getSpecRelations();
+		for(SpecRelation rel : specRelations)
+		{
+			rel.getSource().getIdentifier();
+			rel.getTarget();
+			rel.getIdentifier();
+			
+		}
+	}
 	
 	
 }
