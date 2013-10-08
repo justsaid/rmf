@@ -52,6 +52,7 @@ import org.eclipse.rmf.reqif10.common.util.ReqIF10XhtmlUtil;
 import org.eclipse.rmf.reqif10.pror.configuration.Column;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
+import org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension;
 import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.IProrCellRenderer;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.PresentationEditorInterface;
@@ -104,6 +105,7 @@ public class GenerateJSON {
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
 				commandStack, new ReqIFResourceSetImpl());
 		
+		
 		// iterate reqif dump folder
 		File f = new File("dump/reqif");
 
@@ -123,6 +125,7 @@ public class GenerateJSON {
 					ReqIF reqif = loadData(file);
 
 					if (reqif != null) {
+
 						
 						Specification spec = reqif.getCoreContent().getSpecifications().get(0);
 
@@ -148,7 +151,7 @@ public class GenerateJSON {
 							ProrSpecViewConfiguration config = ConfigurationUtil
 									.createSpecViewConfiguration(spec, editingDomain);
 							List<SpecObjectJSON> specification = new ArrayList<SpecObjectJSON>();
-							createJsonObjRecursive(specification, config, null, spec.getChildren(), adapterFactory);
+							createJsonObjRecursive(specification, config, "", spec.getChildren(), adapterFactory);
 							
 //							createJSON(spec, fileName);
 							createSimpleJSON(specification);
@@ -315,7 +318,6 @@ public class GenerateJSON {
 					} else {
 //						html.append(getDefaultValue(av));
 						attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
-						
 					}
 
 //					if (first) {
@@ -336,15 +338,56 @@ public class GenerateJSON {
 		}
 	}
 
-	
-	private static void createReqsLinks(ReqIF reqif){
+	private static void createReqsLinks(ReqIF reqif,	ProrSpecViewConfiguration config, AdapterFactory adapterFactory){
 		EList<SpecRelation> specRelations = reqif.getCoreContent().getSpecRelations();
 		for(SpecRelation rel : specRelations)
 		{
-			rel.getSource().getIdentifier();
-			rel.getTarget();
-			rel.getIdentifier();
+			///
+			ProrToolExtension prorToolExtension = ConfigurationUtil.getProrToolExtension(reqif);
+			prorToolExtension.getGeneralConfiguration().getLabelConfiguration().getDefaultLabel();
+			///
+			SpecRelationJSON specRelJSON = new SpecRelationJSON();
+			specRelJSON.setId(rel.getIdentifier());
+			specRelJSON.setTarget(rel.getTarget().getIdentifier());
+			specRelJSON.setSource(rel.getSource().getIdentifier());
+
 			
+			List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
+			for (Column col : config.getColumns()) {
+				SpecAttributeJSON attr = null;
+
+				AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
+						rel, col.getLabel());
+				
+				
+				DatatypeDefinition dd = ReqIF10Util
+						.getDatatypeDefinition(av);
+				ProrPresentationConfiguration configuration = ConfigurationUtil
+						.getPresentationConfiguration(dd);
+
+				Object itemProvider = ProrUtil.getItemProvider(
+						adapterFactory, configuration);
+
+				if (itemProvider instanceof PresentationEditorInterface) {
+					PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
+					IProrCellRenderer renderer = presentationEditor
+							.getCellRenderer(av);
+					if (renderer != null) {
+						String content = renderer.doDrawHtmlContent(av);
+						if (content != null) {
+//							html.append(content);
+						} else {
+//							html.append(getDefaultValue(av));
+						}
+					}
+
+				} else {
+//					html.append(getDefaultValue(av));
+					attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
+				}
+
+				attributes.add(attr);
+			}
 		}
 	}
 	
