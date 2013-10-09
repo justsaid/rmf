@@ -8,6 +8,7 @@ public class SpecRelationJSON {
 	private String id;
 	private String source;
 	private String target;
+	private String label;
 	private List<SpecAttributeJSON> attributes;
 
 	public String getId() {
@@ -18,13 +19,6 @@ public class SpecRelationJSON {
 		this.id = id;
 	}
 
-	public void setAttributes(List<SpecAttributeJSON> attributes) {
-		this.attributes = attributes;
-	}
-
-	public List<SpecAttributeJSON> getAttributes() {
-		return attributes;
-	}
 
 	public String getSource() {
 		return source;
@@ -42,29 +36,19 @@ public class SpecRelationJSON {
 		this.target = target;
 	}
 
-	public static SpecRelationJSON createSpecObject(String specObjId,
-			String parentId, List<SpecAttributeJSON> attributes) {
-		SpecRelationJSON specObj = new SpecRelationJSON();
-		specObj.setId(specObjId);
-		specObj.setAttributes(attributes);
-		return specObj;
+	public String getLabel() {
+		return label;
+	}
+	public void setLabel(String label) {
+		this.label = label;
+	}
+	
+	public void setAttributes(List<SpecAttributeJSON> attributes) {
+		this.attributes = attributes;
 	}
 
-	public static SpecRelationJSON createDefaultSpecObject() {
-		SpecRelationJSON specObj = new SpecRelationJSON();
-		specObj.setId("123");
-		specObj.setAttributes(createDefaultAttributes());
-
-		return specObj;
-	}
-
-	public static List<SpecAttributeJSON> createDefaultAttributes() {
-		List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
-		attributes.add(new SpecAttributeJSON("Name", "Req 1"));
-		attributes.add(new SpecAttributeJSON("Desc.", "Req description "));
-		attributes.add(new SpecAttributeJSON("Priority", "5"));
-
+	public List<SpecAttributeJSON> getAttributes() {
 		return attributes;
-
 	}
+
 }

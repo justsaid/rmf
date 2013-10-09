@@ -150,11 +150,17 @@ public class GenerateJSON {
 							
 							ProrSpecViewConfiguration config = ConfigurationUtil
 									.createSpecViewConfiguration(spec, editingDomain);
-							List<SpecObjectJSON> specification = new ArrayList<SpecObjectJSON>();
-							createJsonObjRecursive(specification, config, "", spec.getChildren(), adapterFactory);
 							
+							List<SpecObjectJSON> specObjects = new ArrayList<SpecObjectJSON>();
+							createJsonObjRecursive(specObjects, config, "", spec.getChildren(), adapterFactory);
+							
+							List<SpecRelationJSON> specRelations = createReqsLinks(reqif, config, adapterFactory);
+							ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+							String json = ow.writeValueAsString(specRelations);
+							
+							System.out.println(json);
 //							createJSON(spec, fileName);
-							createSimpleJSON(specification);
+//							createSimpleJSON(specification);
 //							output.write(createHtmlHeader);
 //							output.close();
 
@@ -166,26 +172,6 @@ public class GenerateJSON {
 
 		}
 
-	}
-	private static void createSimpleJSON(List<SpecObjectJSON> specification) throws JsonGenerationException, JsonMappingException, IOException{
-		ObjectMapper mapper = new ObjectMapper();
-		ObjectNode node = mapper.createObjectNode();
-		
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-//		List<SpecObjectJSON> specification = new ArrayList<SpecObjectJSON>(); 
-//		specification.add(SpecObjectJSON.createSpecObject("1", "-1", SpecObjectJSON.createDefaultAttributes()));
-//		specification.add(SpecObjectJSON.createSpecObject("2", "1", SpecObjectJSON.createDefaultAttributes()));
-//		specification.add(SpecObjectJSON.createSpecObject("3", "1", SpecObjectJSON.createDefaultAttributes()));
-//		specification.add(SpecObjectJSON.createSpecObject("4", "1", SpecObjectJSON.createDefaultAttributes()));
-//		specification.add(SpecObjectJSON.createSpecObject("5", "2", SpecObjectJSON.createDefaultAttributes()));
-//		specification.add(SpecObjectJSON.createSpecObject("6", "2", SpecObjectJSON.createDefaultAttributes()));
-		
-		
-		String json = ow.writeValueAsString(specification);
-		
-		System.out.println(json);
-		
-			
 	}
 
 	
@@ -338,57 +324,38 @@ public class GenerateJSON {
 		}
 	}
 
-	private static void createReqsLinks(ReqIF reqif,	ProrSpecViewConfiguration config, AdapterFactory adapterFactory){
+	private static List<SpecRelationJSON> createReqsLinks(ReqIF reqif,	ProrSpecViewConfiguration config, AdapterFactory adapterFactory){
 		EList<SpecRelation> specRelations = reqif.getCoreContent().getSpecRelations();
+		
+		List<SpecRelationJSON> jsonSpecRelations = new ArrayList<SpecRelationJSON>();
 		for(SpecRelation rel : specRelations)
 		{
 			///
-			ProrToolExtension prorToolExtension = ConfigurationUtil.getProrToolExtension(reqif);
-			prorToolExtension.getGeneralConfiguration().getLabelConfiguration().getDefaultLabel();
+//			ProrToolExtension prorToolExtension = ConfigurationUtil.getProrToolExtension(reqif);
+//			List<String> labels = ConfigurationUtil.getDefaultLabels(reqif);
+//			EList<String> labels = prorToolExtension.getGeneralConfiguration().getLabelConfiguration().getDefaultLabel();
 			///
+			
 			SpecRelationJSON specRelJSON = new SpecRelationJSON();
 			specRelJSON.setId(rel.getIdentifier());
 			specRelJSON.setTarget(rel.getTarget().getIdentifier());
 			specRelJSON.setSource(rel.getSource().getIdentifier());
-
+			String lab = ConfigurationUtil.getSpecElementLabel(rel.getTarget(), adapterFactory);
+			specRelJSON.setLabel(lab);
 			
 			List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
 			for (Column col : config.getColumns()) {
-				SpecAttributeJSON attr = null;
 
 				AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
 						rel, col.getLabel());
 				
-				
-				DatatypeDefinition dd = ReqIF10Util
-						.getDatatypeDefinition(av);
-				ProrPresentationConfiguration configuration = ConfigurationUtil
-						.getPresentationConfiguration(dd);
-
-				Object itemProvider = ProrUtil.getItemProvider(
-						adapterFactory, configuration);
-
-				if (itemProvider instanceof PresentationEditorInterface) {
-					PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
-					IProrCellRenderer renderer = presentationEditor
-							.getCellRenderer(av);
-					if (renderer != null) {
-						String content = renderer.doDrawHtmlContent(av);
-						if (content != null) {
-//							html.append(content);
-						} else {
-//							html.append(getDefaultValue(av));
-						}
-					}
-
-				} else {
-//					html.append(getDefaultValue(av));
-					attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
-				}
-
+				SpecAttributeJSON attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
 				attributes.add(attr);
 			}
+			specRelJSON.setAttributes(attributes);
+			jsonSpecRelations.add(specRelJSON);
 		}
+		return jsonSpecRelations;
 	}
 	
 	
