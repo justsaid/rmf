@@ -1,8 +1,10 @@
 package org.eclipse.rmf.reqif10.pror.genhtml;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "id", "label", "target", "source", "attributes" })
 public class SpecRelationJSON {
 
 	private String id;
@@ -18,7 +20,6 @@ public class SpecRelationJSON {
 	public void setId(String id) {
 		this.id = id;
 	}
-
 
 	public String getSource() {
 		return source;

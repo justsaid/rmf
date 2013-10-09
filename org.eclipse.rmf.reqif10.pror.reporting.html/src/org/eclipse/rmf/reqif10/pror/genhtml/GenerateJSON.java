@@ -15,23 +15,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
-import org.codehaus.jackson.node.ObjectNode;
 import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -52,12 +45,15 @@ import org.eclipse.rmf.reqif10.common.util.ReqIF10XhtmlUtil;
 import org.eclipse.rmf.reqif10.pror.configuration.Column;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrPresentationConfiguration;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrSpecViewConfiguration;
-import org.eclipse.rmf.reqif10.pror.configuration.ProrToolExtension;
 import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.IProrCellRenderer;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.PresentationEditorInterface;
+import org.eclipse.rmf.reqif10.pror.presentation.headline.provider.HeadlineItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.presentation.headline.util.HeadlineAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.id.provider.IdConfigurationItemProvider;
 import org.eclipse.rmf.reqif10.pror.presentation.id.util.IdAdapterFactory;
+import org.eclipse.rmf.reqif10.pror.presentation.linewrap.provider.LinewrapConfigurationItemProvider;
+import org.eclipse.rmf.reqif10.pror.presentation.linewrap.provider.LinewrapItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.presentation.linewrap.util.LinewrapAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.provider.ReqIF10ItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
@@ -66,8 +62,6 @@ import org.eclipse.rmf.reqif10.pror.util.ProrXhtmlSimplifiedHelper;
 import org.eclipse.rmf.serialization.ReqIFResourceFactoryImpl;
 import org.eclipse.rmf.serialization.ReqIFResourceImpl;
 import org.eclipse.rmf.serialization.ReqIFResourceSetImpl;
-import org.eclipselabs.emfjson.EMFJs;
-import org.eclipselabs.emfjson.resource.JsResourceFactoryImpl;
 
 /**
  * Standalone-executable class that is used to non-interactively generate HTML
@@ -90,21 +84,19 @@ public class GenerateJSON {
 		adapterFactory.addAdapterFactory(new ConfigurationAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new ReqIF10ItemProviderAdapterFactory());
-		// FIXME (mj) I would prefer not to generate these - does it work
-		// without?
-		// adapterFactory.addAdapterFactory(new
-		// XhtmlItemProviderAdapterFactory());
 		adapterFactory
 				.addAdapterFactory(new ReflectiveItemProviderAdapterFactory());
 
-		adapterFactory.addAdapterFactory(new HeadlineAdapterFactory());
-		adapterFactory.addAdapterFactory(new LinewrapAdapterFactory());
+		adapterFactory.addAdapterFactory(new HeadlineItemProviderAdapterFactory());
+		adapterFactory.addAdapterFactory(new LinewrapItemProviderAdapterFactory());
 		adapterFactory.addAdapterFactory(new IdAdapterFactory());
 		
 		BasicCommandStack commandStack = new BasicCommandStack();
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(adapterFactory,
 				commandStack, new ReqIFResourceSetImpl());
-		
+		editingDomain.getResourceSet().getResourceFactoryRegistry()
+		.getExtensionToFactoryMap()
+		.put("reqif", new ReqIFResourceFactoryImpl());
 		
 		// iterate reqif dump folder
 		File f = new File("dump/reqif");
@@ -155,10 +147,17 @@ public class GenerateJSON {
 							createJsonObjRecursive(specObjects, config, "", spec.getChildren(), adapterFactory);
 							
 							List<SpecRelationJSON> specRelations = createReqsLinks(reqif, config, adapterFactory);
-							ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-							String json = ow.writeValueAsString(specRelations);
 							
-							System.out.println(json);
+							
+							SpecificationJSON jsonSpec = new SpecificationJSON();
+							jsonSpec.setSpecObjects(specObjects);
+							jsonSpec.setSpecRelations(specRelations);
+							
+							ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//							String jsonOut = ow.writeValueAsString(jsonSpec);
+//							System.out.println(jsonOut);
+
+							ow.writeValue(new File( fileName +".json"), jsonSpec);
 //							createJSON(spec, fileName);
 //							createSimpleJSON(specification);
 //							output.write(createHtmlHeader);
@@ -176,26 +175,6 @@ public class GenerateJSON {
 
 	
 	
-	private static void createJSON(Specification spec, String outputName) throws IOException{
-		ResourceSet resourceSet = new ResourceSetImpl();
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("json", new JsResourceFactoryImpl());
-		
-		
-		Resource resource = resourceSet.createResource(URI.createURI("dump/" + outputName + "-model.json"));
-		Map<String, Object> options = new HashMap<String, Object>();
-		options.put(EMFJs.OPTION_INDENT_OUTPUT, true);
-		options.put(EMFJs.OPTION_SERIALIZE_TYPE, true);
-		options.put(EMFJs.OPTION_URL_PARAMETERS, true);
-		options.put(EMFJs.OPTION_PROXY_ATTRIBUTES, true);
-		options.put(EMFJs.OPTION_SERIALIZE_REF_TYPE, true);
-		
-		resource.getContents().add(spec);
-		resource.save(options);
-		
-		
-		
-
-	}
 	
 	public static ReqIF loadData(File file) throws FileNotFoundException,
 			IOException {
@@ -288,6 +267,8 @@ public class GenerateJSON {
 					Object itemProvider = ProrUtil.getItemProvider(
 							adapterFactory, configuration);
 
+					
+					
 					if (itemProvider instanceof PresentationEditorInterface) {
 						PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
 						IProrCellRenderer renderer = presentationEditor
@@ -295,25 +276,19 @@ public class GenerateJSON {
 						if (renderer != null) {
 							String content = renderer.doDrawHtmlContent(av);
 							if (content != null) {
-//								html.append(content);
+								attr = new SpecAttributeJSON(col.getLabel(), content);
 							} else {
-//								html.append(getDefaultValue(av));
+								attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
 							}
 						}
 
 					} else {
-//						html.append(getDefaultValue(av));
 						attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
 					}
 
-//					if (first) {
-//						first = false;
-////						html.append("</div>");
-//					}
-//					html.append("</td>");
 					attributes.add(attr);
 				}
-//				html.append("</tr>\n");
+				
 				SpecObjectJSON specObj = SpecObjectJSON.createSpecObject(specId, parentId, attributes);
 				specification.add(specObj);
 			}
@@ -330,11 +305,6 @@ public class GenerateJSON {
 		List<SpecRelationJSON> jsonSpecRelations = new ArrayList<SpecRelationJSON>();
 		for(SpecRelation rel : specRelations)
 		{
-			///
-//			ProrToolExtension prorToolExtension = ConfigurationUtil.getProrToolExtension(reqif);
-//			List<String> labels = ConfigurationUtil.getDefaultLabels(reqif);
-//			EList<String> labels = prorToolExtension.getGeneralConfiguration().getLabelConfiguration().getDefaultLabel();
-			///
 			
 			SpecRelationJSON specRelJSON = new SpecRelationJSON();
 			specRelJSON.setId(rel.getIdentifier());
@@ -345,11 +315,38 @@ public class GenerateJSON {
 			
 			List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
 			for (Column col : config.getColumns()) {
-
+				SpecAttributeJSON attr = null;
 				AttributeValue av = ReqIF10Util.getAttributeValueForLabel(
 						rel, col.getLabel());
 				
-				SpecAttributeJSON attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
+				
+				
+				
+				DatatypeDefinition dd = ReqIF10Util
+						.getDatatypeDefinition(av);
+				ProrPresentationConfiguration configuration = ConfigurationUtil
+						.getPresentationConfiguration(dd);
+
+				Object itemProvider = ProrUtil.getItemProvider(
+						adapterFactory, configuration);
+
+				
+				if (itemProvider instanceof PresentationEditorInterface) {
+					PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
+					IProrCellRenderer renderer = presentationEditor
+							.getCellRenderer(av);
+					if (renderer != null) {
+						String content = renderer.doDrawHtmlContent(av);
+						if (content != null) {
+							attr = new SpecAttributeJSON(col.getLabel(), content);
+						} else {
+							attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
+						}
+					}
+	
+			} else {
+				attr = new SpecAttributeJSON(col.getLabel(), getDefaultValue(av));
+			}
 				attributes.add(attr);
 			}
 			specRelJSON.setAttributes(attributes);

@@ -3,6 +3,9 @@ package org.eclipse.rmf.reqif10.pror.genhtml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonPropertyOrder;
+
+@JsonPropertyOrder({ "id", "parentId", "attributes" })
 public class SpecObjectJSON {
 
 	private String id;
