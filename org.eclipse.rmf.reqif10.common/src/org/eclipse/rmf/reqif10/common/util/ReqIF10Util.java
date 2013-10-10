@@ -91,10 +91,27 @@ public class ReqIF10Util {
 	}
 
 	/**
+	 * Retrieves the Value as String from the given AttributeValue.
+	 */
+
+	public static String getTheValueString(AttributeValue attributeValue) {
+		String attrStrValue = ""; //$NON-NLS-1$
+		if (attributeValue instanceof AttributeValueEnumeration) {
+			AttributeValueEnumeration attr = (AttributeValueEnumeration) attributeValue;
+			// the selected element (in ProR) is always the first element
+			attrStrValue = attr.getValues().get(0).getLongName();
+		} else {
+			attrStrValue = getTheValue(attributeValue).toString();
+		}
+		return attrStrValue;
+	}
+
+	/**
 	 * Retrieves the Value from the given AttributeValue. We would prefer to have an abstract getTheValue() method on
 	 * AttributeValue, but EMF doesn't support this. Thus, each subclass of AttributeValue has its own getTheValue()
 	 * method. This convenience method returns the value.
 	 */
+
 	public static Object getTheValue(AttributeValue attributeValue) {
 		if (attributeValue instanceof AttributeValueBoolean) {
 			return ((AttributeValueBoolean) attributeValue).isTheValue();

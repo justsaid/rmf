@@ -26,7 +26,9 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.rmf.reqif10.AttributeDefinition;
+import org.eclipse.rmf.reqif10.AttributeDefinitionEnumeration;
 import org.eclipse.rmf.reqif10.AttributeValue;
+import org.eclipse.rmf.reqif10.EnumValue;
 import org.eclipse.rmf.reqif10.ReqIF;
 import org.eclipse.rmf.reqif10.ReqIF10Factory;
 import org.eclipse.rmf.reqif10.ReqIFToolExtension;
@@ -34,6 +36,7 @@ import org.eclipse.rmf.reqif10.SpecHierarchy;
 import org.eclipse.rmf.reqif10.SpecObject;
 import org.eclipse.rmf.reqif10.Specification;
 import org.eclipse.rmf.reqif10.common.util.ReqIF10Util;
+import org.eclipse.rmf.reqif10.impl.AttributeValueEnumerationImpl;
 import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationFactory;
 import org.eclipse.rmf.reqif10.pror.configuration.ConfigurationPackage;
 import org.eclipse.rmf.reqif10.pror.configuration.ProrDefaultFilter;
@@ -46,6 +49,7 @@ import org.eclipse.rmf.reqif10.pror.editor.presentation.Reqif10Editor;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.ReqifSpecificationEditorInput;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.SpecificationEditor;
 import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
+import org.eclipse.rmf.reqif10.pror.util.ProrUtil;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorActionDelegate;
 import org.eclipse.ui.IEditorPart;
@@ -154,15 +158,20 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				AttributeValue av = ReqIF10Util.getAttributeValue(specObject,
 						attrDef);
 				if (av != null) {
-					Object value = ReqIF10Util.getTheValue(av);
-					String avStr = value.toString();
-					Matcher matcher = pattern.matcher(avStr);
+					String value = ReqIF10Util.getTheValueString(av);
+//					String avStr = value.toString();
+					
+					
+					Matcher matcher = pattern.matcher(value);
 					System.err.println(matcher.matches());
 					if (!matcher.matches()) {
 						child.setObject(null);
 //						children.remove(specObject);
 //						System.err.println("removed: "+children.remove(specObject));
 					}
+				}
+				else {
+					child.setObject(null);
 				}
 			}
 			filterRecursive(child.getChildren(), attrDef, regex);
