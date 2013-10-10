@@ -137,18 +137,24 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 			Specification oldSpec) {
 		
 		Specification newSpec = EcoreUtil.copy(oldSpec);
+		StringBuilder newSpecName = new StringBuilder();
 		for(ProrFilterConfiguration filter : filters)
 		{
+			//TODO: should be more generic-> Extension point?
 			if (filter instanceof ProrDefaultFilter)
 			{
 				ProrDefaultFilter prorFilter = (ProrDefaultFilter) filter;
 				String regex = prorFilter.getRegexp();
 				AttributeDefinition attrDef = prorFilter.getAttribute();
+				newSpecName.append(prorFilter.getName()+ ", ");
 				
 				filterRecursive(newSpec.getChildren(), attrDef, regex);
 			}
 		}
-		
+		newSpec.setLongName("filtered "+newSpec.getLongName()+" with: "+newSpecName.toString());
+		newSpecName.setLength(20);
+		newSpecName.trimToSize();
+		newSpec.setDesc(newSpec.getLongName()+"_"+newSpecName.toString());
 		return newSpec;
 	}
 
