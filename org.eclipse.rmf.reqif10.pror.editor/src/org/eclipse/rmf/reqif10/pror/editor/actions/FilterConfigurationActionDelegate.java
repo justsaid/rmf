@@ -21,6 +21,7 @@ import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.Viewer;
@@ -87,10 +88,8 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				.getResources().get(0).getContents().get(0);
 
 		Object input = editor.getEditorInput();
-	
-		
-		spec = ((ReqifSpecificationEditorInput) input)
-				.getSpec();
+
+		spec = ((ReqifSpecificationEditorInput) input).getSpec();
 		// ProrToolExtension toolConfig = ConfigurationUtil
 		// .createProrToolExtension(reqif, editor.getEditingDomain());
 		// EList<ProrFilterConfiguration> configs = toolConfig
@@ -105,12 +104,11 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		// ConfigurationFactory.eINSTANCE.create
 
 		// defaultFilter.setName("Filter1");
-		toolConfig = ConfigurationUtil
-				.createProrToolExtension(reqif, editor.getEditingDomain());
+		toolConfig = ConfigurationUtil.createProrToolExtension(reqif,
+				editor.getEditingDomain());
 		launchFilterDialog(toolConfig);
-		
-//		toolConfig.getSpecViewConfigurations().get(0).getSpecification();
 
+		// toolConfig.getSpecViewConfigurations().get(0).getSpecification();
 
 		// SubtreeDialog dialog = new SubtreeDialog(editor, defaultFilter,
 		// "Filter Configuration",
@@ -129,40 +127,39 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		// });
 
 		// dialog.open();
-		
-		
+
 	}
 
-	private Specification createFilteredSpec(EList<ProrFilterConfiguration> filters,
-			Specification oldSpec) {
-		
+	private Specification createFilteredSpec(
+			EList<ProrFilterConfiguration> filters, Specification oldSpec) {
+
 		Specification newSpec = EcoreUtil.copy(oldSpec);
 		StringBuilder newSpecName = new StringBuilder();
-		for(ProrFilterConfiguration filter : filters)
-		{
-			//TODO: should be more generic-> Extension point?
-			if (filter instanceof ProrDefaultFilter)
-			{
+		for (ProrFilterConfiguration filter : filters) {
+			// TODO: should be more generic-> Extension point?
+			if (filter instanceof ProrDefaultFilter) {
 				ProrDefaultFilter prorFilter = (ProrDefaultFilter) filter;
 				String regex = prorFilter.getRegexp();
 				AttributeDefinition attrDef = prorFilter.getAttribute();
-				newSpecName.append(prorFilter.getName()+ ", ");
-				
+				newSpecName.append(prorFilter.getName() + ", ");
+
 				filterRecursive(newSpec.getChildren(), attrDef, regex);
 			}
 		}
-		newSpec.setLongName("filtered "+newSpec.getLongName()+" with: "+newSpecName.toString());
+		newSpec.setLongName("filtered " + newSpec.getLongName() + " with: "
+				+ newSpecName.toString());
 		newSpecName.setLength(20);
 		newSpecName.trimToSize();
-		newSpec.setDesc(newSpec.getLongName()+"_"+newSpecName.toString());
+		newSpec.setDesc(newSpec.getLongName() + "_" + newSpecName.toString());
 		return newSpec;
 	}
 
 	private static void filterRecursive(EList<SpecHierarchy> children,
 			AttributeDefinition attrDef, String regex) {
 		Pattern pattern = Pattern.compile(regex);
-//		EList<SpecHierarchy> filteredSpecHierarchies = (EList<SpecHierarchy>) EcoreUtil
-//				.copyAll(children);
+		// EList<SpecHierarchy> filteredSpecHierarchies = (EList<SpecHierarchy>)
+		// EcoreUtil
+		// .copyAll(children);
 
 		for (SpecHierarchy child : children) {
 			if (child.getObject() != null) {
@@ -175,29 +172,32 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 					Matcher matcher = pattern.matcher(value);
 					if (!matcher.matches()) {
 						child.setObject(null);
-//						children.remove(specObject);
-//						System.err.println("removed: "+children.remove(specObject));
+						// children.remove(specObject);
+						// System.err.println("removed: "+children.remove(specObject));
 					}
-				}
-				else {
+				} else {
 					child.setObject(null);
 				}
 			}
 			filterRecursive(child.getChildren(), attrDef, regex);
 		}
-		
-//		 Specification newSpec = ReqIF10Factory.eINSTANCE.createSpecification();
-//		 newSpec.getChildren().addAll(children);
-		 
+
+		// Specification newSpec =
+		// ReqIF10Factory.eINSTANCE.createSpecification();
+		// newSpec.getChildren().addAll(children);
+
 	}
-	
+
 	private void openSpec(Specification spec) {
 		try {
-			ProrSpecViewConfiguration specViewConf = ConfigurationUtil.createSpecViewConfiguration(this.spec, editor.getEditingDomain());
-			ProrSpecViewConfiguration newSpecViewConf = EcoreUtil.copy(specViewConf);
+			ProrSpecViewConfiguration specViewConf = ConfigurationUtil
+					.createSpecViewConfiguration(this.spec,
+							editor.getEditingDomain());
+			ProrSpecViewConfiguration newSpecViewConf = EcoreUtil
+					.copy(specViewConf);
 			newSpecViewConf.setSpecification(spec);
 			toolConfig.getSpecViewConfigurations().add(newSpecViewConf);
-			
+
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();
 			ReqifSpecificationEditorInput editorInput = new ReqifSpecificationEditorInput(
@@ -206,35 +206,37 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
 
 	private void launchFilterDialog(final ProrToolExtension config) {
 
-		SubtreeDialog dialog = new SubtreeDialog(editor.getReqifEditor(), config,
-				"Configure a Filter",
+		SubtreeDialog dialog = new SubtreeDialog(editor.getReqifEditor(),
+				config, "Configure a Filter",
 				"org.eclipse.rmf.reqif10.pror.editor.FilterConfiguration") {
 
 			@Override
 			protected void createButtonsForButtonBar(Composite parent) {
 				// TODO Auto-generated method stub
-				super.createButtonsForButtonBar(parent);
+				createButton(parent, IDialogConstants.OK_ID,
+						IDialogConstants.FINISH_LABEL, true);
+				// super.createButtonsForButtonBar(parent);
 
-				createButton(parent, 11, "Preview", false);
+				createButton(parent, IDialogConstants.CANCEL_ID,
+						IDialogConstants.CANCEL_LABEL, false);
 			}
-
 			@Override
 			protected void buttonPressed(int buttonId) {
-				if (buttonId == 11) {
-					EList<ProrFilterConfiguration> filters = toolConfig.getFilterConfigurations();
+				if (buttonId == IDialogConstants.OK_ID) {
+					EList<ProrFilterConfiguration> filters = toolConfig
+							.getFilterConfigurations();
 					Specification newSpec = createFilteredSpec(filters, spec);
-					editor.getReqifEditor().getReqif().getCoreContent().getSpecifications().add(newSpec);
-					
-					
+					editor.getReqifEditor().getReqif().getCoreContent()
+							.getSpecifications().add(newSpec);
 					close();
 					openSpec(newSpec);
-					
+				} else if (buttonId == IDialogConstants.CANCEL_ID) {
+					close();
 				} else {
 					super.buttonPressed(buttonId);
 				}
