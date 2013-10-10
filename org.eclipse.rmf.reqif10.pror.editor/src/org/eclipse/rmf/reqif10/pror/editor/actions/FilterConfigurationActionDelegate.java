@@ -133,15 +133,22 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		
 	}
 
-	private Specification createFilteredSpec(ProrDefaultFilter filter,
+	private Specification createFilteredSpec(EList<ProrFilterConfiguration> filters,
 			Specification oldSpec) {
 		
-		
-		String regex = filter.getRegexp();
-		AttributeDefinition attrDef = filter.getAttribute();
-		
 		Specification newSpec = EcoreUtil.copy(oldSpec);
-		filterRecursive(newSpec.getChildren(), attrDef, regex);
+		for(ProrFilterConfiguration filter : filters)
+		{
+			if (filter instanceof ProrDefaultFilter)
+			{
+				ProrDefaultFilter prorFilter = (ProrDefaultFilter) filter;
+				String regex = prorFilter.getRegexp();
+				AttributeDefinition attrDef = prorFilter.getAttribute();
+				
+				filterRecursive(newSpec.getChildren(), attrDef, regex);
+			}
+		}
+		
 		return newSpec;
 	}
 
@@ -159,11 +166,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 						attrDef);
 				if (av != null) {
 					String value = ReqIF10Util.getTheValueString(av);
-//					String avStr = value.toString();
-					
-					
 					Matcher matcher = pattern.matcher(value);
-					System.err.println(matcher.matches());
 					if (!matcher.matches()) {
 						child.setObject(null);
 //						children.remove(specObject);
@@ -219,7 +222,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 			protected void buttonPressed(int buttonId) {
 				if (buttonId == 11) {
 					EList<ProrFilterConfiguration> filters = toolConfig.getFilterConfigurations();
-					Specification newSpec = createFilteredSpec((ProrDefaultFilter)filters.get(0), spec);
+					Specification newSpec = createFilteredSpec(filters, spec);
 					editor.getReqifEditor().getReqif().getCoreContent().getSpecifications().add(newSpec);
 					
 					
