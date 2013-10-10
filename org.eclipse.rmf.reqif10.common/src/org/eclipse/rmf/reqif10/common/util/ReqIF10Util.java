@@ -12,6 +12,8 @@ package org.eclipse.rmf.reqif10.common.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -100,6 +102,18 @@ public class ReqIF10Util {
 			AttributeValueEnumeration attr = (AttributeValueEnumeration) attributeValue;
 			// the selected element (in ProR) is always the first element
 			attrStrValue = attr.getValues().get(0).getLongName();
+		} else if (attributeValue instanceof AttributeValueDate) {
+			AttributeValueDate attr = (AttributeValueDate) attributeValue;
+			Calendar cal = attr.getTheValue().toGregorianCalendar();
+
+			// ProR date format: Oct 10, 2013
+			String month = new SimpleDateFormat("MMM").format(cal.getTime()); //$NON-NLS-1$
+			attrStrValue = month + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR); //$NON-NLS-1$ //$NON-NLS-2$
+
+		} else if (attributeValue instanceof AttributeValueXHTML) {
+			// TODO: use new getXHTML() methode impl by marc
+			// for now we just return an empty string
+			attrStrValue = ""; //$NON-NLS-1$
 		} else {
 			attrStrValue = getTheValue(attributeValue).toString();
 		}
