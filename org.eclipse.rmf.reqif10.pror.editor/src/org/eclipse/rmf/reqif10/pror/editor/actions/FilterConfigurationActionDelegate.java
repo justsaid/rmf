@@ -10,12 +10,18 @@
  ******************************************************************************/
 package org.eclipse.rmf.reqif10.pror.editor.actions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
@@ -146,6 +152,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				filterRecursive(newSpec.getChildren(), attrDef, regex);
 			}
 		}
+
 		newSpec.setLongName("filtered " + newSpec.getLongName() + " with: "
 				+ newSpecName.toString());
 		newSpecName.setLength(20);
@@ -154,7 +161,63 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		return newSpec;
 	}
 
-	private static void filterRecursive(EList<SpecHierarchy> children,
+	// private HashSet<SpecHierarchy> cleanSpecification(EList<SpecHierarchy>
+	// specHierarchies){
+	// HashSet<SpecHierarchy> specHwithNoSpecObj = new HashSet<SpecHierarchy>();
+	// for(Iterator<SpecHierarchy> itr =
+	// specHierarchies.iterator();itr.hasNext();)
+	// {
+	// SpecHierarchy specH = itr.next();
+	// // SpecObject specObj = specH.getObject();
+	// // EList<SpecHierarchy> children = specH.getChildren();
+	// if(specH.getObject()!=null)
+	// cleanSpecification(specH.getChildren());
+	// if(hasAnyChildrenAsSpecObj(specH))
+	// break;
+	// else
+	// itr.remove();
+	//
+	// // if(specObj==null)
+	// // {
+	// // System.err.println(specH.getLongName());
+	// // System.out.println(specHierarchies.remove(specH));
+	// // }
+	// }
+	// }
+	//
+	private boolean hasAnyChildrenAsSpecObj(SpecHierarchy specH) {
+		for (SpecHierarchy child : specH.getChildren()) {
+			SpecObject specObj = child.getObject();
+			if (specObj != null)
+				return true;
+			else {
+				return hasAnyChildrenAsSpecObj(child);
+			}
+		}
+		return false;
+	}
+
+	private void cleanSpecHierarchies(EList<SpecHierarchy> children,
+			EList<SpecHierarchy> newSpecHierarchies) {
+		// Specification newSpec = EcoreUtil.copy(oldSpec);
+//		newSpec.getChildren().clear();
+		System.out.println("size : " + newSpecHierarchies.size());
+		for (SpecHierarchy specH : children) {
+			SpecObject specObj = specH.getObject();
+			if (specObj != null) {
+				newSpecHierarchies.add(specH);
+				if (!specH.getChildren().isEmpty())
+					cleanSpec(specH.getChildren(), specH.getChildren());
+			}
+			else
+			{
+				if (!specH.getChildren().isEmpty())
+					cleanSpec(specH.getChildren(), specH.getChildren());
+			}
+		}
+	}
+
+	private void filterRecursive(EList<SpecHierarchy> children,
 			AttributeDefinition attrDef, String regex) {
 		Pattern pattern = Pattern.compile(regex);
 		// EList<SpecHierarchy> filteredSpecHierarchies = (EList<SpecHierarchy>)
@@ -176,10 +239,14 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 						// System.err.println("removed: "+children.remove(specObject));
 					}
 				} else {
+					// if specObj doesnt even have the specific attrDef
 					child.setObject(null);
 				}
+			} else {
+				// filterRecursive(child.getChildren(), attrDef, regex);
 			}
 			filterRecursive(child.getChildren(), attrDef, regex);
+
 		}
 
 		// Specification newSpec =
@@ -209,6 +276,20 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 
 	}
 
+	private SpecHierarchy getNonEmptyParentSpecH(SpecHierarchy specH) {
+		if (specH.getObject() != null)
+			return specH;
+		else if (specH.eContainer() instanceof SpecHierarchy) {
+			SpecHierarchy parentSpecH = (SpecHierarchy) specH.eContainer();
+			return getNonEmptyParentSpecH(parentSpecH);
+		}
+		if (specH.eContainer() instanceof Specification)
+			return null;
+		System.err
+				.println("SpecHierarchy.eContainer should be either a SpecH or a Spec");
+		return null;
+	}
+
 	private void launchFilterDialog(final ProrToolExtension config) {
 
 		SubtreeDialog dialog = new SubtreeDialog(editor.getReqifEditor(),
@@ -225,12 +306,21 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				createButton(parent, IDialogConstants.CANCEL_ID,
 						IDialogConstants.CANCEL_LABEL, false);
 			}
+
 			@Override
 			protected void buttonPressed(int buttonId) {
 				if (buttonId == IDialogConstants.OK_ID) {
 					EList<ProrFilterConfiguration> filters = toolConfig
 							.getFilterConfigurations();
 					Specification newSpec = createFilteredSpec(filters, spec);
+
+					HashMap<SpecHierarchy, SpecHierarchy> specHNewMap = new HashMap<SpecHierarchy, SpecHierarchy>();
+					HashMap<SpecHierarchy, SpecHierarchy> specHRemoveMap = new HashMap<SpecHierarchy, SpecHierarchy>();
+
+					// cleanSpecification(newSpec.getChildren());
+					// TreeIterator<Object> itr =
+					// EcoreUtil.getAllContents(newSpec,true);
+
 					editor.getReqifEditor().getReqif().getCoreContent()
 							.getSpecifications().add(newSpec);
 					close();
