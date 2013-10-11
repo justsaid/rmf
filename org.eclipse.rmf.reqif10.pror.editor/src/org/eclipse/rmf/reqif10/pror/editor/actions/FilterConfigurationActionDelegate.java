@@ -140,6 +140,10 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 			EList<ProrFilterConfiguration> filters, Specification oldSpec) {
 
 		Specification newSpec = EcoreUtil.copy(oldSpec);
+		Specification cleanedSpec = EcoreUtil.copy(oldSpec);
+		cleanedSpec.getChildren().clear();
+		System.out.println("Size of cleanedSpec "+ cleanedSpec.getChildren().size());
+
 		StringBuilder newSpecName = new StringBuilder();
 		for (ProrFilterConfiguration filter : filters) {
 			// TODO: should be more generic-> Extension point?
@@ -150,6 +154,9 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				newSpecName.append(prorFilter.getName() + ", ");
 
 				filterRecursive(newSpec.getChildren(), attrDef, regex);
+				
+				cleanSpecHierarchies(newSpec.getChildren(), cleanedSpec.getChildren());
+				
 			}
 		}
 
@@ -158,7 +165,7 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		newSpecName.setLength(20);
 		newSpecName.trimToSize();
 		newSpec.setDesc(newSpec.getLongName() + "_" + newSpecName.toString());
-		return newSpec;
+		return cleanedSpec;
 	}
 
 	// private HashSet<SpecHierarchy> cleanSpecification(EList<SpecHierarchy>
@@ -204,15 +211,19 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 		System.out.println("size : " + newSpecHierarchies.size());
 		for (SpecHierarchy specH : children) {
 			SpecObject specObj = specH.getObject();
+			
+			SpecHierarchy newSpecHierachy = EcoreUtil.copy(specH);
+			newSpecHierachy.getChildren().clear();
+
 			if (specObj != null) {
-				newSpecHierarchies.add(specH);
+				newSpecHierarchies.add(newSpecHierachy);
 				if (!specH.getChildren().isEmpty())
-					cleanSpec(specH.getChildren(), specH.getChildren());
+					cleanSpecHierarchies(specH.getChildren(), newSpecHierachy.getChildren());
 			}
 			else
 			{
 				if (!specH.getChildren().isEmpty())
-					cleanSpec(specH.getChildren(), specH.getChildren());
+					cleanSpecHierarchies(specH.getChildren(), newSpecHierarchies);
 			}
 		}
 	}
