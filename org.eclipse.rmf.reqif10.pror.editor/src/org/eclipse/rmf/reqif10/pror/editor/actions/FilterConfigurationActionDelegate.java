@@ -154,17 +154,18 @@ public class FilterConfigurationActionDelegate implements IEditorActionDelegate 
 				newSpecName.append(prorFilter.getName() + ", ");
 
 				filterRecursive(newSpec.getChildren(), attrDef, regex);
-				
-				cleanSpecHierarchies(newSpec.getChildren(), cleanedSpec.getChildren());
-				
 			}
 		}
+		cleanSpecHierarchies(newSpec.getChildren(), cleanedSpec.getChildren());
+		
 
-		newSpec.setLongName("filtered " + newSpec.getLongName() + " with: "
-				+ newSpecName.toString());
-		newSpecName.setLength(20);
+		//delete last ","
+		newSpecName.deleteCharAt(newSpecName.length()-1);
+//		cleanedSpec.setLongName("filtered " + newSpec.getLongName() + " with: "
+//				+ newSpecName.toString());
+		newSpecName.setLength(30);
 		newSpecName.trimToSize();
-		newSpec.setDesc(newSpec.getLongName() + "_" + newSpecName.toString());
+		cleanedSpec.setDesc(newSpec.getLongName() + " filtered with: " + newSpecName.toString());
 		return cleanedSpec;
 	}
 
