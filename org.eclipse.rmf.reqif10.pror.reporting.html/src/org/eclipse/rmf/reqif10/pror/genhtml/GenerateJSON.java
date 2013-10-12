@@ -49,12 +49,8 @@ import org.eclipse.rmf.reqif10.pror.configuration.util.ConfigurationAdapterFacto
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.IProrCellRenderer;
 import org.eclipse.rmf.reqif10.pror.editor.presentation.service.PresentationEditorInterface;
 import org.eclipse.rmf.reqif10.pror.presentation.headline.provider.HeadlineItemProviderAdapterFactory;
-import org.eclipse.rmf.reqif10.pror.presentation.headline.util.HeadlineAdapterFactory;
-import org.eclipse.rmf.reqif10.pror.presentation.id.provider.IdConfigurationItemProvider;
 import org.eclipse.rmf.reqif10.pror.presentation.id.util.IdAdapterFactory;
-import org.eclipse.rmf.reqif10.pror.presentation.linewrap.provider.LinewrapConfigurationItemProvider;
 import org.eclipse.rmf.reqif10.pror.presentation.linewrap.provider.LinewrapItemProviderAdapterFactory;
-import org.eclipse.rmf.reqif10.pror.presentation.linewrap.util.LinewrapAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.provider.ReqIF10ItemProviderAdapterFactory;
 import org.eclipse.rmf.reqif10.pror.util.ConfigurationUtil;
 import org.eclipse.rmf.reqif10.pror.util.ProrUtil;
@@ -150,8 +146,8 @@ public class GenerateJSON {
 							
 							
 							SpecificationJSON jsonSpec = new SpecificationJSON();
-							jsonSpec.setSpecObjects(specObjects);
-							jsonSpec.setSpecRelations(specRelations);
+							jsonSpec.setSpecification(specObjects);
+							jsonSpec.setRelations(specRelations);
 							
 							ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 //							String jsonOut = ow.writeValueAsString(jsonSpec);
@@ -240,13 +236,14 @@ public class GenerateJSON {
 			EList<SpecHierarchy> children,
 			AdapterFactory adapterFactory) {
 		String newParentId = null;
-		for (SpecHierarchy child : children) {
-			if (child.getObject() != null) {
-				SpecObject specObject = child.getObject();
-				String specId = specObject.getIdentifier();
-				newParentId = specId;
+		for (SpecHierarchy specH : children) {
+			if (specH.getObject() != null) {
+				SpecObject specObject = specH.getObject();
+				String specObjId = specObject.getIdentifier();
+//				String specId = specObject.getIdentifier();
+				String specHierarchyId = specH.getIdentifier();
+				newParentId = specHierarchyId;
 				
-				boolean first = true;
 //				html.append("<tr>");
 				// Handle indenting
 //				if (first) {
@@ -267,8 +264,6 @@ public class GenerateJSON {
 					Object itemProvider = ProrUtil.getItemProvider(
 							adapterFactory, configuration);
 
-					
-					
 					if (itemProvider instanceof PresentationEditorInterface) {
 						PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
 						IProrCellRenderer renderer = presentationEditor
@@ -289,12 +284,17 @@ public class GenerateJSON {
 					attributes.add(attr);
 				}
 				
-				SpecObjectJSON specObj = SpecObjectJSON.createSpecObject(specId, parentId, attributes);
+				SpecObjectJSON specObj = new SpecObjectJSON();
+				specObj.setObjectId(specObjId);
+				specObj.setHierarchyId(specHierarchyId);
+				specObj.setParentId(parentId);
+				specObj.setAttributes(attributes);
+
 				specification.add(specObj);
 			}
 			
 
-			createJsonObjRecursive(specification, config, newParentId, child.getChildren(),
+			createJsonObjRecursive(specification, config, newParentId, specH.getChildren(),
 					adapterFactory);
 		}
 	}

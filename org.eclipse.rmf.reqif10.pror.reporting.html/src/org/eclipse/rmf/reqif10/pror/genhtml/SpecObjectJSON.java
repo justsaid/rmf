@@ -5,19 +5,26 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "id", "parentId", "attributes" })
+@JsonPropertyOrder({ "hierarchyId","objectId", "parentId", "attributes" })
 public class SpecObjectJSON {
 
-	private String id;
+	private String objectId;
+	private String hierarchyId;
 	private String parentId;
 	private List<SpecAttributeJSON> attributes;
 	
 	
-	public String getId() {
-		return id;
+	public void setHierarchyId(String hierarchyId) {
+		this.hierarchyId = hierarchyId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public String getHierarchyId() {
+		return hierarchyId;
+	}
+	public void setObjectId(String objectId) {
+		this.objectId = objectId;
+	}
+	public String getObjectId() {
+		return objectId;
 	}
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
@@ -32,16 +39,9 @@ public class SpecObjectJSON {
 		return attributes;
 	}
 	
-	public static SpecObjectJSON createSpecObject(String specObjId, String parentId, List<SpecAttributeJSON> attributes){
-		SpecObjectJSON specObj = new SpecObjectJSON();
-		specObj.setId(specObjId);
-		specObj.setParentId(parentId);
-		specObj.setAttributes(attributes);
-		return specObj;
-	}
 	public static SpecObjectJSON createDefaultSpecObject(){
 		SpecObjectJSON specObj = new SpecObjectJSON();
-		specObj.setId("123");
+		specObj.setObjectId("123");
 		specObj.setParentId("-1");
 		specObj.setAttributes(createDefaultAttributes());
 

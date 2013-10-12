@@ -4,24 +4,24 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
 
-@JsonPropertyOrder({ "specObjects", "specRelations" })
+@JsonPropertyOrder({ "specification", "relations" })
 public class SpecificationJSON {
 
-	private List<SpecObjectJSON> specObjects;
-	private List<SpecRelationJSON> specRelations;
+	private List<SpecObjectJSON> specification;
+	private List<SpecRelationJSON> relations;
 	
-	public List<SpecObjectJSON> getSpecObjects() {
-		return specObjects;
+
+	public void setSpecification(List<SpecObjectJSON> specification) {
+		this.specification = specification;
 	}
-	public void setSpecObjects(List<SpecObjectJSON> specObjects) {
-		this.specObjects = specObjects;
+	public List<SpecObjectJSON> getSpecification() {
+		return specification;
 	}
-	public List<SpecRelationJSON> getSpecRelations() {
-		return specRelations;
+	public void setRelations(List<SpecRelationJSON> relations) {
+		this.relations = relations;
 	}
-	public void setSpecRelations(List<SpecRelationJSON> specRelations) {
-		this.specRelations = specRelations;
+	public List<SpecRelationJSON> getRelations() {
+		return relations;
 	}
-	
 	
 }
