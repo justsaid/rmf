@@ -10,9 +10,16 @@ public class SpecObjectJSON {
 	private String objectId;
 	private String hierarchyId;
 	private String parentId;
+	private String level;
 	private List<SpecAttributeJSON> attributes;
 	
 	
+	public void setLevel(String level) {
+		this.level = level;
+	}
+	public String getLevel() {
+		return level;
+	}
 	public void setHierarchyId(String hierarchyId) {
 		this.hierarchyId = hierarchyId;
 	}

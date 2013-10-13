@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
@@ -80,52 +81,55 @@ import org.eclipse.rmf.serialization.ReqIFResourceSetImpl;
 public class GenerateJSON {
 
 	private static boolean excelReport;
-	
-	public static HSSFWorkbook getWorkbook(String fileName){
+
+	public static HSSFWorkbook getWorkbook(String fileName) {
 		HSSFWorkbook workbook = null;
 		try {
-		    FileInputStream file = new FileInputStream(new File(fileName));
-		 
-		    workbook = new HSSFWorkbook(file);
-		 
-		    file.close();
-		     
-		    FileOutputStream outFile = new FileOutputStream(new File(fileName+"_updated.xls"));
-		    workbook.write(outFile);
-		    outFile.close();
-		     
+			FileInputStream file = new FileInputStream(new File(fileName));
+
+			workbook = new HSSFWorkbook(file);
+
+			file.close();
+
+			FileOutputStream outFile = new FileOutputStream(new File(fileName
+					+ "_updated.xls"));
+			workbook.write(outFile);
+			outFile.close();
+
 		} catch (FileNotFoundException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		} catch (IOException e) {
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
-		
+
 		return workbook;
 	}
-	public static ExcelReport createExcelLinksReport(List<SpecRelationJSON> links, String fileName, ExcelReport report) {
+
+	public static ExcelReport createExcelLinksReport(
+			List<SpecRelationJSON> links, String fileName, ExcelReport report) {
 
 		try {
 			ExcelReportColumn[] columns = new ExcelReportColumn[] {
 					new ExcelReportColumn("id", "Object ID", FormatType.TEXT),
 					new ExcelReportColumn("label", "Label", FormatType.TEXT),
-					new ExcelReportColumn("target", "target ID", FormatType.TEXT),
-					new ExcelReportColumn("source", "source ID", FormatType.TEXT),
-					};
-			
+					new ExcelReportColumn("target", "target ID",
+							FormatType.TEXT),
+					new ExcelReportColumn("source", "source ID",
+							FormatType.TEXT), };
 
-			report.addSheet(links, columns, "SpecRelations"  );
+			report.addSheet(links, columns, "SpecRelations");
 
 			columns[0].setColor(HSSFColor.GREEN.index);
 
-
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return report;
 	}
-	public static void createExcelReport(List<SpecObjectJSON> specObjects, String fileName, ExcelReport report) {
+
+	public static void createExcelReport(List<SpecObjectJSON> specObjects,
+			String fileName, ExcelReport report) {
 		List<SpecAttributeJSON> attributes = specObjects.get(0).getAttributes();
 		List<String> attributeNames = new ArrayList<String>();
 		for (SpecAttributeJSON attr : attributes) {
@@ -134,21 +138,28 @@ public class GenerateJSON {
 
 		try {
 			int idx = 0;
-			ExcelReportColumn[] columns = new ExcelReportColumn[attributeNames.size() + 3];
-			
+			ExcelReportColumn[] columns = new ExcelReportColumn[attributeNames
+					.size() + 4];
+			columns[idx] = new ExcelReportColumn("level", "Level",
+					FormatType.TEXT);
+			idx++;
+
 			for (String attrName : attributeNames) {
-				columns[idx] = new ExcelReportColumn("attributes["+idx+"].attrValue", attrName,
-						FormatType.TEXT);
+				columns[idx] = new ExcelReportColumn("attributes[" + (idx - 1)
+						+ "].attrValue", attrName, FormatType.TEXT);
 				idx++;
 			}
-			columns[idx] = new ExcelReportColumn("objectId", "Object ID", FormatType.TEXT);
-			columns[idx+1] = new ExcelReportColumn("hierarchyId", "Hierarchy ID", FormatType.TEXT);
-			columns[idx+2] = new ExcelReportColumn("parentId", "Parent ID", FormatType.TEXT);
-			
+			columns[idx] = new ExcelReportColumn("objectId", "Object ID",
+					FormatType.TEXT);
+			columns[idx + 1] = new ExcelReportColumn("hierarchyId",
+					"Hierarchy ID", FormatType.TEXT);
+			columns[idx + 2] = new ExcelReportColumn("parentId", "Parent ID",
+					FormatType.TEXT);
 
-			report.addSheet(specObjects, columns, fileName  );
+			report.addSheet(specObjects, columns, fileName);
 
-			OutputStream output = new FileOutputStream("dump/"+fileName+".xls");
+			OutputStream output = new FileOutputStream("dump/" + fileName
+					+ ".xls");
 
 			report.write(output);
 			output.close();
@@ -216,27 +227,28 @@ public class GenerateJSON {
 
 						String fileName = file.getName();
 
-						
-						
 						ProrSpecViewConfiguration config = ConfigurationUtil
 								.createSpecViewConfiguration(spec,
 										editingDomain);
 
 						excelReport = true;
 						List<SpecObjectJSON> specObjects = new ArrayList<SpecObjectJSON>();
+						Stack<Integer> hierarchy = new Stack<Integer>();
+						hierarchy.push(1);
 						createJsonObjRecursive(specObjects, config, "",
-								spec.getChildren(), adapterFactory);
+								spec.getChildren(), adapterFactory,
+								hierarchy);
 
 						List<SpecRelationJSON> specRelations = createReqsLinks(
 								reqif, config, adapterFactory);
 
 						ExcelReport report = new ExcelReport();
 						createExcelLinksReport(specRelations, fileName, report);
-						//create excel report
-//						Bean2Excel report = new Bean2Excel(getWorkbook("dump/BasicReqs.reqif.xls"));
-						createExcelReport(specObjects,fileName, report);
-						
-						
+						// create excel report
+						// Bean2Excel report = new
+						// Bean2Excel(getWorkbook("dump/BasicReqs.reqif.xls"));
+						createExcelReport(specObjects, fileName, report);
+
 						SpecificationJSON jsonSpec = new SpecificationJSON();
 						jsonSpec.setSpecification(specObjects);
 						jsonSpec.setRelations(specRelations);
@@ -317,10 +329,12 @@ public class GenerateJSON {
 	private static void createJsonObjRecursive(
 			List<SpecObjectJSON> specification,
 			ProrSpecViewConfiguration config, String parentId,
-			EList<SpecHierarchy> children, AdapterFactory adapterFactory) {
+			EList<SpecHierarchy> children, AdapterFactory adapterFactory,
+			Stack<Integer> hierarchy) {
 		String newParentId = null;
 		for (SpecHierarchy specH : children) {
 			if (specH.getObject() != null) {
+
 				SpecObject specObject = specH.getObject();
 				String specObjId = specObject.getIdentifier();
 				// String specId = specObject.getIdentifier();
@@ -347,8 +361,8 @@ public class GenerateJSON {
 					Object itemProvider = ProrUtil.getItemProvider(
 							adapterFactory, configuration);
 
-//					ReqIF10Util.getSpecType(ad);
-					
+					// ReqIF10Util.getSpecType(ad);
+
 					if (itemProvider instanceof PresentationEditorInterface) {
 						PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
 						IProrCellRenderer renderer = presentationEditor
@@ -358,9 +372,9 @@ public class GenerateJSON {
 							if (content != null && excelReport == false) {
 								attr = new SpecAttributeJSON(col.getLabel(),
 										content, FormatType.TEXT);
-//								attr = new SpecAttributeJSON(col.getLabel(),
-//										getDefaultValue(av), FormatType.TEXT);
-								
+								// attr = new SpecAttributeJSON(col.getLabel(),
+								// getDefaultValue(av), FormatType.TEXT);
+
 							} else {
 								attr = new SpecAttributeJSON(col.getLabel(),
 										getDefaultValue(av), FormatType.TEXT);
@@ -380,13 +394,36 @@ public class GenerateJSON {
 				specObj.setHierarchyId(specHierarchyId);
 				specObj.setParentId(parentId);
 				specObj.setAttributes(attributes);
-
+				specObj.setLevel(stackToString(hierarchy));
 				specification.add(specObj);
+
 			}
+			//hierarchy level of a new child, always 1 
+			hierarchy.push(1);
 
 			createJsonObjRecursive(specification, config, newParentId,
-					specH.getChildren(), adapterFactory);
+					specH.getChildren(), adapterFactory, hierarchy);
+			
+			//hierarchy level of a new siblings
+			//always the last level + 1
+			int currentLevel = hierarchy.pop();
+			hierarchy.push(currentLevel + 1);
 		}
+		//no more siblings -> drop this level
+		hierarchy.pop();
+	}
+
+	private static String stackToString(Stack<Integer> hierarchy) {
+		StringBuilder sb = new StringBuilder();
+		int idx = 0;
+		for (Integer level : hierarchy) {
+			if (idx == hierarchy.size() - 1)
+				sb.append(level);
+			else
+				sb.append(level + ".");
+			idx++;
+		}
+		return sb.toString();
 	}
 
 	private static List<SpecRelationJSON> createReqsLinks(ReqIF reqif,
@@ -422,7 +459,7 @@ public class GenerateJSON {
 					PresentationEditorInterface presentationEditor = (PresentationEditorInterface) itemProvider;
 					IProrCellRenderer renderer = presentationEditor
 							.getCellRenderer(av);
-					if (renderer != null && excelReport==false) {
+					if (renderer != null && excelReport == false) {
 						String content = renderer.doDrawHtmlContent(av);
 						if (content != null) {
 							attr = new SpecAttributeJSON(col.getLabel(),
