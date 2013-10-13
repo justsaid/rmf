@@ -1,6 +1,5 @@
 package org.eclipse.rmf.reqif10.pror.genhtml;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonPropertyOrder;
@@ -39,21 +38,20 @@ public class SpecObjectJSON {
 		return attributes;
 	}
 	
-	public static SpecObjectJSON createDefaultSpecObject(){
-		SpecObjectJSON specObj = new SpecObjectJSON();
-		specObj.setObjectId("123");
-		specObj.setParentId("-1");
-		specObj.setAttributes(createDefaultAttributes());
-
-		return specObj;
-	}
+//	public static SpecObjectJSON createDefaultSpecObject(){
+//		SpecObjectJSON specObj = new SpecObjectJSON();
+//		specObj.setObjectId("123");
+//		specObj.setParentId("-1");
+//		specObj.setAttributes(createDefaultAttributes());
+//
+//		return specObj;
+//	}
 	
-	public static List<SpecAttributeJSON> createDefaultAttributes(){
-		List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
-		attributes.add(new SpecAttributeJSON("Name", "Req 1"));
-		attributes.add(new SpecAttributeJSON("Desc.", "Req description "));
-		attributes.add(new SpecAttributeJSON("Priority", "5"));
-		
-		return attributes;
-	}
+//	public static List<SpecAttributeJSON> createDefaultAttributes(){
+//		List<SpecAttributeJSON> attributes = new ArrayList<SpecAttributeJSON>();
+//		attributes.add(new SpecAttributeJSON("Name", "Req 1",FormatType.TEXT));
+//		attributes.add(new SpecAttributeJSON("Desc.", "Req description ",FormatType.TEXT));
+//		attributes.add(new SpecAttributeJSON("Priority", "5",FormatType.INTEGER));
+//		return attributes;
+//	}
 }

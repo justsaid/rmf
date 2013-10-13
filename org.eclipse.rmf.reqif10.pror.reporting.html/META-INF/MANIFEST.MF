@@ -20,7 +20,13 @@ Require-Bundle: org.junit,
  org.codehaus.jackson.core;bundle-version="1.6.0",
  org.codehaus.jackson.core.source;bundle-version="1.6.0",
  org.codehaus.jackson.mapper;bundle-version="1.6.0",
- org.codehaus.jackson.mapper.source;bundle-version="1.6.0"
+ org.codehaus.jackson.mapper.source;bundle-version="1.6.0",
+ org.apache.poi;bundle-version="3.9.0",
+ org.apache.poi.source;bundle-version="3.9.0",
+ org.apache.commons.beanutils;bundle-version="1.8.0",
+ org.apache.commons.beanutils.source;bundle-version="1.8.0",
+ org.apache.commons.logging;bundle-version="1.0.4",
+ org.apache.commons.logging.source;bundle-version="1.0.4"
 Bundle-Vendor: %providerName
 Bundle-ClassPath: lib/mockito-all-1.8.4.jar,
  .
